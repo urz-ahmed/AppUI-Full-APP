@@ -33,7 +33,7 @@
     "passwordPlaceholder": "Enter a password",
     "agree": "I agree with the ",
     "terms": "Terms and Conditions",
-    "signup": "Sign Up",
+    "signup": "Register",
     "signin": "Sign In",
     "goBack": "Go back",
     "inStock": "In stock",
@@ -63,7 +63,8 @@
     "profile": "Profile",
     "settings": "Settings",
     "register": "Create account",
-    "extra": "Extra - Automotive"
+    "extra": "Extra - Automotive",
+    "login": "Login"
   },
   "navigation": {
     "home": "Soft UI",
@@ -94,8 +95,12 @@
     "trending": "Trending"
   },
   "register": {
-    "title": "Welcome",
+    "title": "Register",
     "subtitle": "Register with"
+  },
+  "login": {
+    "title": "Login",
+    "subtitle": "Login with"
   },
   "profile": {
     "title": "Profile",
@@ -104,6 +109,7 @@
     "following": "Following",
     "aboutMe": "About me"
   },
+  
   "pro": {
     "title": "Soft UI PRO",
     "alert": "This feature is available in PRO version",
