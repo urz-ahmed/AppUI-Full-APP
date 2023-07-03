@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
+import Login from '../screens/Login';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,8 @@ export default () => {
         component={Register}
         options={{headerShown: false}}
       />
+
+    
     </Stack.Navigator>
   );
 };

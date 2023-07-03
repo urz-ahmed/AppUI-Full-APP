@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Linking, Platform} from 'react-native';
-import {useNavigation} from '@react-navigation/core';
+import {Alert, Linking, Platform} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
-
+import axios from "axios";
 const isAndroid = Platform.OS === 'android';
-
+const API_URL = "https://farmappbackend.onrender.com";
 interface IRegistration {
   name: string;
   email: string;
@@ -46,12 +46,98 @@ const Register = () => {
     [setRegistration],
   );
 
-  const handleSignUp = useCallback(() => {
+  const handleSignUp = useCallback(async () => {
     if (!Object.values(isValid).includes(false)) {
       /** send/save registratin data */
-      console.log('handleSignUp', registration);
+     
+
+    const credentials = {
+      email: registration.email,
+      password: registration.password,
+    };
+    try {
+      // setLoading(true);
+      const response = await axios.post(`${API_URL}/signup`, credentials);
+      const { data } = response;
+      // setTimeout(() => {
+      //   Alert.alert('Register Success🚀🚀');
+      // }, 500);
+      navigation.navigate('Home');
+    } catch (error: any) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log(`Error:`, error.message);
+      }
+      console.log(error.config);
     }
+    // finally{
+    //   setLoading(false);
+    // }
+  }
   }, [isValid, registration]);
+  /*
+  const HandleRegister = async () => {
+    const credentials = {
+      email: registration.email,
+      password: registration.password,
+    };
+
+    try {
+      setLoading(true);
+      const response = await axios.post(`${API_URL}/signup`, credentials);
+      const { data } = response;
+      setTimeout(() => {
+        Alert.alert("Register Success🚀🚀");
+      }, 500);
+      navigate("Login");
+    } catch (error: any) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+      }
+      console.log(error.config);
+    }finally{
+      setLoading(false);
+    }
+  };
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     setIsValid((state) => ({
@@ -185,6 +271,7 @@ const Register = () => {
                   danger={Boolean(registration.name && !isValid.name)}
                   onChangeText={(value) => handleChange({name: value})}
                 />
+
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
@@ -229,7 +316,8 @@ const Register = () => {
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
                 gradient={gradients.primary}
-                disabled={Object.values(isValid).includes(false)}>
+                disabled={Object.values(isValid).includes(false)}
+                >
                 <Text bold white transform="uppercase">
                   {t('common.signup')}
                 </Text>

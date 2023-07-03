@@ -18,6 +18,7 @@ import {
   ARTICLES,
 } from '../constants/mocks';
 import {light} from '../constants';
+import { Alert } from 'react-native';
 
 export const DataContext = React.createContext({});
 
@@ -35,6 +36,7 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
   // get isDark mode from storage
   const getIsDark = useCallback(async () => {
     // get preferance gtom storage
+    // Alert.alert("GetIsDark Clicked!!")
     const isDarkJSON = await Storage.getItem('isDark');
 
     if (isDarkJSON !== null) {
