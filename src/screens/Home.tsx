@@ -33,8 +33,7 @@ const Home = () => {
               id: _id,
               email,
               name: username,
-              department: 'Marketing Manager',
-              stats: {posts: 323, followers: 53200, following: 749000},
+              department: 'Farmer',
               social: {twitter: 'CreativeTim', dribbble: 'creativetim'},
               about:
                 'Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).',
