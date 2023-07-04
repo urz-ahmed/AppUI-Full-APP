@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Alert, Animated, Linking, StyleSheet} from 'react-native';
-
+import axios from 'axios';
 import {
   useIsDrawerOpen,
   createDrawerNavigator,
@@ -68,7 +68,7 @@ const DrawerContent = (
 ) => {
   const {navigation} = props;
   const {t} = useTranslation();
-  const {isDark, handleIsDark} = useData();
+  const {isDark, handleIsDark,isLogin} = useData();
   const [active, setActive] = useState('Home');
   const {assets, colors, gradients, sizes} = useTheme();
   const labelColor = colors.text;
@@ -80,7 +80,7 @@ const DrawerContent = (
     },
     [navigation, setActive],
   );
-
+  
   const handleWebLink = useCallback((url) => Linking.openURL(url), []);
 
   // screen list for Drawer menu
@@ -92,10 +92,21 @@ const DrawerContent = (
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
     {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
     {name: t('screens.register'), to: 'Register', icon: assets.register},
-    {name: t('screens.login'), to: 'Login', icon: assets.register},
-  
-    {name: t('screens.extra'), to: 'Pro', icon: assets.extras},
   ];
+
+  if (isLogin) {
+    screens.push({
+      name: t('screens.logout'),
+      to: 'Logout',
+      icon: assets.extras,
+    });
+  } else {
+    screens.push({
+      name: t('screens.login'),
+      to: 'Login',
+      icon: assets.register,
+    });
+  }
 
   return (
     <DrawerContentScrollView

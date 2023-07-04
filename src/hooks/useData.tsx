@@ -18,11 +18,12 @@ import {
   ARTICLES,
 } from '../constants/mocks';
 import {light} from '../constants';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 
 export const DataContext = React.createContext({});
 
 export const DataProvider = ({children}: {children: React.ReactNode}) => {
+  const [isLogin, setIsLogin] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [theme, setTheme] = useState<ITheme>(light);
   const [user, setUser] = useState<IUser>(USERS[0]);
@@ -54,6 +55,15 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
       Storage.setItem('isDark', JSON.stringify(payload));
     },
     [setIsDark],
+  );
+  const handleIsLogin = useCallback(
+    (payload: boolean) => {
+      // set isLogin / compare if has updated
+      setIsLogin(payload);
+      // save preferance to storage
+      Storage.setItem('isLogin', JSON.stringify(payload));
+    },
+    [setIsLogin],
   );
 
   // handle users / profiles
@@ -100,6 +110,8 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
   }, [isDark]);
 
   const contextValue = {
+    isLogin,
+    handleIsLogin,
     isDark,
     handleIsDark,
     theme,

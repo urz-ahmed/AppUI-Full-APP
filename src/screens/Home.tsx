@@ -1,15 +1,17 @@
 import React, {useCallback, useState} from 'react';
-
+import axios from 'axios';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Image, Input, Product, Text} from '../components/';
+import {useEffect} from 'react';
 
 const Home = () => {
   const {t} = useTranslation();
   const [tab, setTab] = useState<number>(0);
-  const {following, trending} = useData();
+  const {following, trending, user} = useData();
   const [products, setProducts] = useState(following);
   const {assets, colors, fonts, gradients, sizes} = useTheme();
-
+  const {handleUser} = useData();
+  const {isLogin} = useData();
   const handleProducts = useCallback(
     (tab: number) => {
       setTab(tab);
@@ -17,6 +19,44 @@ const Home = () => {
     },
     [following, trending, setTab, setProducts],
   );
+
+  const handleUserData = () => {
+    try {
+      axios
+        .get('https://farmappbackend.onrender.com/login', {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.data) {
+            const {_id, email, username} = res.data;
+            handleUser({
+              id: _id,
+              email,
+              name: username,
+              department: 'Marketing Manager',
+              stats: {posts: 323, followers: 53200, following: 749000},
+              social: {twitter: 'CreativeTim', dribbble: 'creativetim'},
+              about:
+                'Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).',
+              avatar:
+                'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleUserData();
+  }, [user]);
+  useEffect(() => {
+   console.log("Login Status:",isLogin)
+  });
 
   return (
     <Block>

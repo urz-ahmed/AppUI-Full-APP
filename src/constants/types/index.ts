@@ -8,6 +8,7 @@ export * from './theme';
 export interface IUser {
   id: number | string;
   name?: string;
+  email?: string;
   department?: string;
   avatar?: string;
   stats?: {posts?: number; followers?: number; following?: number};
@@ -60,6 +61,8 @@ export interface ILocation {
   country?: string;
 }
 export interface IUseData {
+  isLogin: boolean;
+  handleIsLogin: (isDark?: boolean) => void;
   isDark: boolean;
   handleIsDark: (isDark?: boolean) => void;
   theme: ITheme;
@@ -84,6 +87,7 @@ export interface IUseData {
   handleArticle: (data?: IArticle) => void;
   notifications: INotification[];
   handleNotifications: (data?: INotification[]) => void;
+
 }
 
 export interface ITranslate {

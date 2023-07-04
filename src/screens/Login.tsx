@@ -28,7 +28,7 @@ interface IRegistrationValidation {
   agreed: boolean;
 }
 const Login = () => {
-  const {isDark} = useData();
+  const {isLogin, handleIsLogin, isDark} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [isValid, setIsValid] = useState<IRegistrationValidation>({
@@ -68,6 +68,7 @@ const Login = () => {
       email: registration.email,
       password: registration.password,
     };
+
     try {
       // setLoading(true)
       const response = await axios.post(`${API_URL}/login`, credintals);
@@ -80,6 +81,7 @@ const Login = () => {
         25,
         50,
       );
+      handleIsLogin(true);
       navigation.navigate('Home');
     } catch (error) {
       console.log(error);
