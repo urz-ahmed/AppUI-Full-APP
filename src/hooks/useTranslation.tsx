@@ -1,40 +1,49 @@
-import i18n from 'i18n-js';
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Localization from 'expo-localization';
-import Storage from '@react-native-async-storage/async-storage';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import i18n from 'i18n-js';
+import en from '../constants/translations/en.json';
+import hi from '../constants/translations/hi.json';
+import bn from '../constants/translations/bn.json';
+import { Scope } from 'i18n-js';
 
-import translations from '../constants/translations/';
-import {ITranslate} from '../constants/types';
+interface ITranslate {
+  t: (scope: Scope, options?: i18n.TranslateOptions) => string;
+  locale: string;
+  setLocale: (value: string) => void;
+  changeLanguage: (selectedLocale: string) => void;
+}
 
-export const TranslationContext = React.createContext({});
+export const TranslationContext = createContext<ITranslate | null>(null);
 
-export const TranslationProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const useTranslation = (): ITranslate => {
+  const contextValue = useContext(TranslationContext);
+  if (!contextValue) {
+    throw new Error('useTranslation must be used within a TranslationProvider');
+  }
+  return contextValue;
+};
+
+export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   const [locale, setLocale] = useState('en');
 
-  // Set the locale once at the beginning of your app.
   i18n.locale = locale;
-  // Set the key-value pairs for the different languages you want to support.
-  i18n.translations = translations;
-  // When a value is missing from a language it'll fallback to another language with the key present.
+  i18n.translations = {
+    en,
+    hi,
+    bn,
+  };
   i18n.fallbacks = true;
 
   const t = useCallback(
-    (scope: i18n.Scope, options?: i18n.TranslateOptions) => {
-      return i18n.t(scope, {...options, locale});
+    (scope: Scope, options: i18n.TranslateOptions = {}) => {
+      return i18n.t(scope, { ...options, locale });
     },
-    [locale],
+    [locale]
   );
 
-  // get locale from storage
   const getLocale = useCallback(async () => {
-    // get preferance gtom storage
-    const localeJSON = await Storage.getItem('locale');
-
-    // set Locale / compare if has updated
+    const localeJSON = await AsyncStorage.getItem('locale');
     setLocale(localeJSON !== null ? localeJSON : Localization.locale);
   }, [setLocale]);
 
@@ -43,15 +52,22 @@ export const TranslationProvider = ({
   }, [getLocale]);
 
   useEffect(() => {
-    // save preferance to storage
-    Storage.setItem('locale', locale);
+    AsyncStorage.setItem('locale', locale);
   }, [locale]);
 
-  const contextValue = {
+  const changeLanguage = useCallback(
+    (selectedLocale: string) => {
+      setLocale(selectedLocale);
+      AsyncStorage.setItem('locale', selectedLocale);
+    },
+    [setLocale]
+  );
+
+  const contextValue: ITranslate = {
     t,
     locale,
     setLocale,
-    translate: t,
+    changeLanguage,
   };
 
   return (
@@ -60,10 +76,3 @@ export const TranslationProvider = ({
     </TranslationContext.Provider>
   );
 };
-
-/*
- * useTranslation hook based on i18n-js
- * Source: https://github.com/fnando/i18n-js
- */
-export const useTranslation = () =>
-  useContext(TranslationContext) as ITranslate;
