@@ -1,7 +1,12 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Alert, Animated, Linking, StyleSheet} from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/core';
 import axios from 'axios';
+
+import {View} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import {Scope} from 'i18n-js';
+
 import {
   useIsDrawerOpen,
   createDrawerNavigator,
@@ -15,6 +20,7 @@ import {Block, Text, Switch, Button, Image} from '../components';
 import {useData, useTheme, useTranslation} from '../hooks';
 import Login from '../screens/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LanguageSelector from '../components/LanguageSelector';
 const Drawer = createDrawerNavigator();
 
 /* drawer menu screens navigation */
@@ -69,16 +75,15 @@ const DrawerContent = (
 ) => {
   const {navigation} = props;
   const {t} = useTranslation();
-  const {isDark, handleIsDark, isLogin, user, handleUser,handleIsLogin} = useData();
+  const {isDark, handleIsDark, isLogin, user, handleUser, handleIsLogin} =
+    useData();
   const [active, setActive] = useState('Home');
+  const [showPicker, setShowPicker] = useState(false);
   const {assets, colors, gradients, sizes} = useTheme();
 
   const labelColor = colors.text;
 
-
   const HandleLogout = async () => {
-   
-  
     try {
       await axios.post('https://farmappbackend.onrender.com/logout');
       navigation.navigate('Login');
@@ -87,8 +92,8 @@ const DrawerContent = (
         email: 'email',
         name: 'username',
         department: 'Department',
-        stats: { posts: 0, followers: 0, following: 0 },
-        social: { twitter: 'twitter', dribbble: 'dribbble' },
+        stats: {posts: 0, followers: 0, following: 0},
+        social: {twitter: 'twitter', dribbble: 'dribbble'},
         about: 'about',
         avatar:
           'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
@@ -122,6 +127,17 @@ const DrawerContent = (
 
     {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
   ];
+  // language selector
+  const {locale, changeLanguage} = useTranslation();
+  const togglePicker = () => {
+    setShowPicker(!showPicker);
+  };
+  const handleLanguageChange = useCallback(
+    (selectedLanguage: string) => {
+      changeLanguage(selectedLanguage);
+    },
+    [changeLanguage],
+  );
 
   if (!isLogin) {
     screens.push(
@@ -129,6 +145,7 @@ const DrawerContent = (
       {name: t('screens.login'), to: 'Login', icon: assets.login},
     );
   }
+
   return (
     <DrawerContentScrollView
       {...props}
@@ -229,6 +246,44 @@ const DrawerContent = (
             {t('Logout.title')}
           </Text>
         </Button>
+
+        {/* // language button */}
+
+        <Button
+          row
+          justify="flex-start"
+          marginTop={sizes.sm}
+          marginBottom={sizes.s}
+          onPress={togglePicker}>
+          <Block
+            flex={0}
+            radius={6}
+            align="center"
+            justify="center"
+            width={sizes.md}
+            height={sizes.md}
+            marginRight={sizes.s}
+            gradient={gradients.white}>
+            <Image
+              radius={0}
+              width={14}
+              height={14}
+              // color={colors.black}
+              source={assets.logout}
+            />
+          </Block>
+          <Text p color={labelColor}>
+            Language
+          </Text>
+        </Button>
+
+        {showPicker && (
+          <Picker selectedValue={locale} onValueChange={handleLanguageChange}>
+            <Picker.Item label="English" value="en" />
+            <Picker.Item label="Hindi" value="hi" />
+            <Picker.Item label="Bangla" value="bn" />
+          </Picker>
+        )}
 
         <Block row justify="space-between" marginTop={sizes.sm}>
           <Text color={labelColor}>{t('darkMode')}</Text>
