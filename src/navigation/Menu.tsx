@@ -291,7 +291,7 @@ const DrawerContent = (
             checked={isDark}
             onPress={(checked) => {
               handleIsDark(checked);
-              Alert.alert(t('pro.title'), t('pro.alert'));
+             
             }}
           />
         </Block>

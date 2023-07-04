@@ -10,7 +10,7 @@ const Home = () => {
   const {following, trending, user} = useData();
   const [products, setProducts] = useState(following);
   const {assets, colors, fonts, gradients, sizes} = useTheme();
-  const {handleUser} = useData();
+  const {handleUser, isDark} = useData();
   const {isLogin} = useData();
   const handleProducts = useCallback(
     (tab: number) => {
@@ -20,48 +20,15 @@ const Home = () => {
     [following, trending, setTab, setProducts],
   );
 
-  // const handleUserData = () => {
-  //   try {
-  //     axios
-  //       .get('https://farmappbackend.onrender.com/login', {
-  //         withCredentials: true,
-  //       })
-  //       .then((res) => {
-  //         if (res.data) {
-  //           const {_id, email, username} = res.data;
-  //           handleUser({
-  //             id: _id,
-  //             email,
-  //             name: username,
-  //             department: 'Marketing Manager',
-  //             stats: {posts: 323, followers: 53200, following: 749000},
-  //             social: {twitter: 'CreativeTim', dribbble: 'creativetim'},
-  //             about:
-  //               'Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).',
-  //             avatar:
-  //               'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
-  //           });
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   handleUserData();
-  // }, [user]);
   useEffect(() => {
-   console.log("Login Status:",isLogin)
+    console.log('Login Status:', isLogin);
   });
-
+  const themeColor = isDark ? colors.dark : colors.background;
+  const textTheme = isDark ? 'white' : 'black';
   return (
-    <Block>
+    <Block color={themeColor}>
       {/* search input */}
-      <Block color={colors.card} flex={0} padding={sizes.padding}>
+      <Block color={themeColor} flex={0} padding={sizes.padding}>
         <Input search placeholder={t('common.search')} />
       </Block>
 
@@ -71,7 +38,7 @@ const Home = () => {
         flex={0}
         align="center"
         justify="center"
-        color={colors.card}
+        color={themeColor}
         paddingBottom={sizes.sm}>
         <Button onPress={() => handleProducts(0)}>
           <Block row align="center">
@@ -84,9 +51,12 @@ const Home = () => {
               width={sizes.socialIconSize}
               height={sizes.socialIconSize}
               gradient={gradients?.[tab === 0 ? 'primary' : 'secondary']}>
-              <Image source={assets.extras} color={colors.white} radius={0} />
+              <Image source={assets.extras} color={textTheme} radius={0} />
             </Block>
-            <Text p font={fonts?.[tab === 0 ? 'medium' : 'normal']}>
+            <Text
+              p
+              font={fonts?.[tab === 0 ? 'medium' : 'normal']}
+              color={textTheme}>
               {t('home.following')}
             </Text>
           </Block>
@@ -111,11 +81,11 @@ const Home = () => {
               gradient={gradients?.[tab === 1 ? 'primary' : 'secondary']}>
               <Image
                 radius={0}
-                color={colors.white}
+                color={textTheme}
                 source={assets.documentation}
               />
             </Block>
-            <Text p font={fonts?.[tab === 1 ? 'medium' : 'normal']}>
+            <Text p font={fonts?.[tab === 1 ? 'medium' : 'normal']}   color={textTheme}>
               {t('home.trending')}
             </Text>
           </Block>
@@ -127,10 +97,12 @@ const Home = () => {
         scroll
         paddingHorizontal={sizes.padding}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: sizes.l}}>
+        contentContainerStyle={{paddingBottom: sizes.l}}
+        color={themeColor}
+        >
         <Block row wrap="wrap" justify="space-between" marginTop={sizes.sm}>
           {products?.map((product) => (
-            <Product {...product} key={`card-${product?.id}`} />
+            <Product {...product} key={`card-${product?.id}`}   />
           ))}
         </Block>
       </Block>
