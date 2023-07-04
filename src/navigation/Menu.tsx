@@ -268,8 +268,8 @@ const DrawerContent = (
               radius={0}
               width={14}
               height={14}
-              // color={colors.black}
-              source={assets.logout}
+              color={colors.icon}
+              source={assets.LangIcon}
             />
           </Block>
           <Text p color={labelColor}>

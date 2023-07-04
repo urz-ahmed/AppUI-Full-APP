@@ -237,6 +237,7 @@ export interface ThemeIcons {
   register: ImageSourcePropType;
   login: ImageSourcePropType;
   logout: ImageSourcePropType;
+  LangIcon: ImageSourcePropType;
   rental: ImageSourcePropType;
   search: ImageSourcePropType;
   settings: ImageSourcePropType;
