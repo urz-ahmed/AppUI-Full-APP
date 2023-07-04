@@ -89,6 +89,10 @@
     "started": "Getting Started",
     "documentation": "Documentation"
   },
+  "Logout": {
+    "title": "Logout",
+    "image": "Documentation"
+  },
   "home": {
     "title": "Soft UI",
     "following": "Following",

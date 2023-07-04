@@ -63,7 +63,7 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
       // save preferance to storage
       Storage.setItem('isLogin', JSON.stringify(payload));
     },
-    [setIsLogin],
+    [setIsLogin,setUser],
   );
 
   // handle users / profiles
@@ -117,9 +117,9 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
     theme,
     setTheme,
     user,
+    handleUser,
     users,
     handleUsers,
-    handleUser,
     following,
     setFollowing,
     trending,

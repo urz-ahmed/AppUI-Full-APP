@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Platform, Linking} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
@@ -9,7 +9,7 @@ import {useData, useTheme, useTranslation} from '../hooks/';
 const isAndroid = Platform.OS === 'android';
 
 const Profile = () => {
-  const {user} = useData();
+  const {user, isLogin} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
@@ -21,6 +21,11 @@ const Profile = () => {
   const IMAGE_VERTICAL_MARGIN =
     (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
 
+  useEffect(() => {
+    if (!isLogin) {
+      navigation.navigate('Login');
+    }
+  }, [isLogin, navigation]);
   const handleSocialLink = useCallback(
     (type: 'twitter' | 'dribbble') => {
       const url =
@@ -34,7 +39,7 @@ const Profile = () => {
         alert(`Cannot open URL: ${url}`);
       }
     },
-    [user],
+    [user, isLogin],
   );
 
   return (

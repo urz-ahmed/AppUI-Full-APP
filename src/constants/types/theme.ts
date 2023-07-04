@@ -235,6 +235,8 @@ export interface ThemeIcons {
   payment: ImageSourcePropType;
   profile: ImageSourcePropType;
   register: ImageSourcePropType;
+  login: ImageSourcePropType;
+  logout: ImageSourcePropType;
   rental: ImageSourcePropType;
   search: ImageSourcePropType;
   settings: ImageSourcePropType;

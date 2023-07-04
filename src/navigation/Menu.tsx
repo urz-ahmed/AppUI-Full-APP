@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Alert, Animated, Linking, StyleSheet} from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import {
   useIsDrawerOpen,
@@ -13,14 +14,14 @@ import Screens from './Screens';
 import {Block, Text, Switch, Button, Image} from '../components';
 import {useData, useTheme, useTranslation} from '../hooks';
 import Login from '../screens/Login';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Drawer = createDrawerNavigator();
 
 /* drawer menu screens navigation */
 const ScreensStack = () => {
-  const {colors} = useTheme();
   const isDrawerOpen = useIsDrawerOpen();
   const animation = useRef(new Animated.Value(0)).current;
+  const {assets, colors, gradients, sizes} = useTheme();
 
   const scale = animation.interpolate({
     inputRange: [0, 1],
@@ -68,10 +69,38 @@ const DrawerContent = (
 ) => {
   const {navigation} = props;
   const {t} = useTranslation();
-  const {isDark, handleIsDark,isLogin} = useData();
+  const {isDark, handleIsDark, isLogin, user, handleUser,handleIsLogin} = useData();
   const [active, setActive] = useState('Home');
   const {assets, colors, gradients, sizes} = useTheme();
+
   const labelColor = colors.text;
+
+
+  const HandleLogout = async () => {
+   
+  
+    try {
+      await axios.post('https://farmappbackend.onrender.com/logout');
+      navigation.navigate('Login');
+      handleUser({
+        id: 0,
+        email: 'email',
+        name: 'username',
+        department: 'Department',
+        stats: { posts: 0, followers: 0, following: 0 },
+        social: { twitter: 'twitter', dribbble: 'dribbble' },
+        about: 'about',
+        avatar:
+          'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
+      });
+      await AsyncStorage.removeItem('user');
+      await AsyncStorage.removeItem('isLogin');
+      // Reset login state
+      handleIsLogin(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleNavigation = useCallback(
     (to) => {
@@ -80,7 +109,7 @@ const DrawerContent = (
     },
     [navigation, setActive],
   );
-  
+
   const handleWebLink = useCallback((url) => Linking.openURL(url), []);
 
   // screen list for Drawer menu
@@ -90,24 +119,16 @@ const DrawerContent = (
     {name: t('screens.articles'), to: 'Articles', icon: assets.document},
     {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+
     {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
-    {name: t('screens.register'), to: 'Register', icon: assets.register},
   ];
 
-  if (isLogin) {
-    screens.push({
-      name: t('screens.logout'),
-      to: 'Logout',
-      icon: assets.extras,
-    });
-  } else {
-    screens.push({
-      name: t('screens.login'),
-      to: 'Login',
-      icon: assets.register,
-    });
+  if (!isLogin) {
+    screens.push(
+      {name: t('screens.register'), to: 'Register', icon: assets.register},
+      {name: t('screens.login'), to: 'Login', icon: assets.login},
+    );
   }
-
   return (
     <DrawerContentScrollView
       {...props}
@@ -175,19 +196,18 @@ const DrawerContent = (
           marginVertical={sizes.sm}
           gradient={gradients.menu}
         />
-
+        {/* 
         <Text semibold transform="uppercase" opacity={0.5}>
           {t('menu.documentation')}
-        </Text>
+        </Text> */}
 
         <Button
           row
           justify="flex-start"
           marginTop={sizes.sm}
           marginBottom={sizes.s}
-          onPress={() =>
-            handleWebLink('https://github.com/creativetimofficial')
-          }>
+          disabled={!isLogin}
+          onPress={HandleLogout}>
           <Block
             flex={0}
             radius={6}
@@ -201,12 +221,12 @@ const DrawerContent = (
               radius={0}
               width={14}
               height={14}
-              color={colors.black}
-              source={assets.documentation}
+              // color={colors.black}
+              source={assets.logout}
             />
           </Block>
           <Text p color={labelColor}>
-            {t('menu.started')}
+            {t('Logout.title')}
           </Text>
         </Button>
 
