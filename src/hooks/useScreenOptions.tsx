@@ -19,10 +19,12 @@ import Block from '../components/Block';
 
 export default () => {
   const {t} = useTranslation();
-  const {user} = useData();
+  const {user, isDark} = useData();
   const navigation = useNavigation();
   const {icons, colors, gradients, sizes} = useTheme();
 
+  const themeColor = isDark ? gradients.dark : gradients.light;
+  const textTheme = isDark ? 'white' : 'black';
   const menu = {
     headerStyle: {elevation: 0},
     headerTitleAlign: 'left',
@@ -30,6 +32,7 @@ export default () => {
     headerLeftContainerStyle: {paddingLeft: sizes.s},
     headerRightContainerStyle: {paddingRight: sizes.s},
     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+
     headerTitle: ({children}: StackHeaderTitleProps) => (
       <Text p>{children}</Text>
     ),

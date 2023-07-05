@@ -82,7 +82,8 @@ const DrawerContent = (
   const {assets, colors, gradients, sizes} = useTheme();
 
   const labelColor = colors.text;
-
+  const themeColor = isDark ? gradients.dark : gradients.light;
+  const textTheme = isDark ? 'white' : 'black';
   const HandleLogout = async () => {
     try {
       await axios.post('https://farmappbackend.onrender.com/logout');
@@ -153,21 +154,21 @@ const DrawerContent = (
       removeClippedSubviews
       renderToHardwareTextureAndroid
       contentContainerStyle={{paddingBottom: sizes.padding}}>
-      <Block paddingHorizontal={sizes.padding}>
+      <Block paddingHorizontal={sizes.padding} >
         <Block flex={0} row align="center" marginBottom={sizes.l}>
           <Image
             radius={0}
             width={33}
             height={33}
-            color={colors.text}
+            color={textTheme}
             source={assets.logo}
             marginRight={sizes.sm}
           />
           <Block>
-            <Text size={12} semibold>
+            <Text size={12} semibold color={textTheme}>
               {t('app.name')}
             </Text>
-            <Text size={12} semibold>
+            <Text size={12} semibold color={textTheme}>
               {t('app.native')}
             </Text>
           </Block>
@@ -199,7 +200,7 @@ const DrawerContent = (
                   color={colors[isActive ? 'white' : 'black']}
                 />
               </Block>
-              <Text p semibold={isActive} color={labelColor}>
+              <Text p semibold={isActive} color={textTheme}>
                 {screen.name}
               </Text>
             </Button>
@@ -242,7 +243,7 @@ const DrawerContent = (
               source={assets.logout}
             />
           </Block>
-          <Text p color={labelColor}>
+          <Text p color={textTheme}>
             {t('Logout.title')}
           </Text>
         </Button>
@@ -272,7 +273,7 @@ const DrawerContent = (
               source={assets.LangIcon}
             />
           </Block>
-          <Text p color={labelColor}>
+          <Text p color={textTheme}>
             Language
           </Text>
         </Button>
@@ -284,14 +285,13 @@ const DrawerContent = (
             <Picker.Item label="Bangla" value="bn" />
           </Picker>
         )}
-
+   {/* Dark mode Switch  */}
         <Block row justify="space-between" marginTop={sizes.sm}>
-          <Text color={labelColor}>{t('darkMode')}</Text>
+          <Text color={textTheme}>{t('darkMode')}</Text>
           <Switch
             checked={isDark}
             onPress={(checked) => {
               handleIsDark(checked);
-             
             }}
           />
         </Block>
@@ -302,10 +302,12 @@ const DrawerContent = (
 
 /* drawer menu navigation */
 export default () => {
-  const {gradients} = useTheme();
-
+  const {gradients, colors} = useTheme();
+  const {isDark} = useData();
+  const themeColor = isDark ? gradients.dark : gradients.light;
+  const textTheme = isDark ? 'white' : 'black';
   return (
-    <Block gradient={gradients.light}>
+    <Block gradient={themeColor}>
       <Drawer.Navigator
         drawerType="slide"
         overlayColor="transparent"

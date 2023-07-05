@@ -9,10 +9,10 @@ import {useData, useTheme, useTranslation} from '../hooks/';
 const isAndroid = Platform.OS === 'android';
 
 const Profile = () => {
-  const {user, isLogin} = useData();
+  const {user, isLogin, isDark} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {assets, colors, sizes} = useTheme();
+  const {assets, colors, sizes, gradients} = useTheme();
 
   const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
   const IMAGE_VERTICAL_SIZE =
@@ -21,11 +21,11 @@ const Profile = () => {
   const IMAGE_VERTICAL_MARGIN =
     (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
 
-  useEffect(() => {
-    if (!isLogin) {
-      navigation.navigate('Login');
-    }
-  }, [isLogin, navigation]);
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     navigation.navigate('Login');
+  //   }
+  // }, [isLogin, navigation]);
   const handleSocialLink = useCallback(
     (type: 'twitter' | 'dribbble') => {
       const url =
@@ -41,15 +41,18 @@ const Profile = () => {
     },
     [user, isLogin],
   );
-
+  const themeColor = isDark ? gradients.dark : gradients.light;
+  const textTheme = isDark ? 'white' : 'black';
   return (
-    <Block safe marginTop={sizes.md}>
+    <Block safe marginTop={sizes.md}  >
       <Block
         scroll
         paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: sizes.padding}}>
-        <Block flex={0}>
+        contentContainerStyle={{paddingBottom: sizes.padding}}
+      
+        >
+        <Block flex={0} gradient={themeColor}>
           <Image
             background
             resizeMode="cover"
@@ -70,7 +73,7 @@ const Profile = () => {
                 source={assets.arrow}
                 transform={[{rotate: '180deg'}]}
               />
-              <Text p white marginLeft={sizes.s}>
+              <Text p white marginLeft={sizes.s} color={textTheme}>
                 {t('profile.title')}
               </Text>
             </Button>
@@ -87,7 +90,7 @@ const Profile = () => {
               <Text p center white>
                 {user?.department}
               </Text>
-              <Block row marginVertical={sizes.m}>
+              <Block row marginVertical={sizes.m} >
                 <Button
                   white
                   outlined
@@ -171,10 +174,10 @@ const Profile = () => {
 
           {/* profile: about me */}
           <Block paddingHorizontal={sizes.sm}>
-            <Text h5 semibold marginBottom={sizes.s} marginTop={sizes.sm}>
+            <Text h5 semibold marginBottom={sizes.s} marginTop={sizes.sm} color={textTheme}>
               {t('profile.aboutMe')}
             </Text>
-            <Text p lineHeight={26}>
+            <Text p lineHeight={26} color={textTheme}>
               {user?.about}
             </Text>
           </Block>
@@ -182,11 +185,11 @@ const Profile = () => {
           {/* profile: photo album */}
           <Block paddingHorizontal={sizes.sm} marginTop={sizes.s}>
             <Block row align="center" justify="space-between">
-              <Text h5 semibold>
+              <Text h5 semibold color={textTheme}>
                 {t('common.album')}
               </Text>
               <Button>
-                <Text p primary semibold>
+                <Text p primary semibold color={textTheme}>
                   {t('common.viewall')}
                 </Text>
               </Button>

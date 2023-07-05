@@ -49,10 +49,10 @@
     }
   },
   "app": {
-    "name": "Soft UI",
-    "fullname": "Soft UI Kit",
-    "native": "React Native",
-    "link": "creative-tim.com"
+    "name": "Farm-App",
+    "fullname": "Farm App",
+    "native": "Krishi Sarthi",
+    "link": "HackStars.com"
   },
   "darkMode": "Dark Mode",
   "screens": {
@@ -67,10 +67,10 @@
     "login": "Login"
   },
   "navigation": {
-    "home": "Soft UI",
+    "home": "Home",
     "components": "Components",
-    "articles": "Soft UI",
-    "rentals": "Soft UI",
+    "articles": "Articles",
+    "rentals": "Rentals",
     "rental": "Best Deal",
     "booking": "Booking",
     "chat": "Chat",

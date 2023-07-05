@@ -77,7 +77,7 @@ export const COLORS: ThemeColors = {
 };
 
 export const GRADIENTS: ThemeGradients = {
-  primary: ['#A0C49D', '#E9FFC2'],
+primary: ['#FBCF33','#17AD37'],
   secondary: ['#A8B8D8', '#C5DFF8'],
   info: ['#21D4FD', '#2152FF'],
   success: ['#98EC2D', '#17AD37'],
@@ -97,6 +97,20 @@ export const GRADIENTS: ThemeGradients = {
     'rgba(255, 255, 255, 0.2)',
   ],
 };
+const white = "#fff";
+const black = "#000";
+const dark = "#626262";
+const blue = "#1F41BB";
+const gray = "#ECECEC";
+const lightBlue = "#f1f4ff";
+const Primary = "#ff385cff";
+const DPink = "#E75480";
+const YellowMedium = "#FFC81D";
+const JHGreen = "#008000";
+const Safron = "#fb8500";
+const ProfBlue = "#4895ef";
+const MxRed = "#e63946";
+
 
 export const SIZES: ThemeSizes = {
   // global sizes
