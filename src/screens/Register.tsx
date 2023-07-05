@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Alert, Linking, Platform, ToastAndroid, Vibration} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Linking,
+  Platform,
+  ToastAndroid,
+  Vibration,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
@@ -22,6 +29,7 @@ interface IRegistrationValidation {
 }
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const {isDark} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -68,7 +76,7 @@ const Register = () => {
     console.log(credentials);
 
     try {
-      // setLoading(true);
+      setLoading(true);
       const response = await axios.post(`${API_URL}/signup`, credentials);
       const {data} = response;
       ToastAndroid.showWithGravityAndOffset(
@@ -97,10 +105,9 @@ const Register = () => {
         console.log(`Error:`, error.message);
       }
       console.log(error.config);
+    } finally {
+      setLoading(false);
     }
-    // finally{
-    //   setLoading(false);
-    // }
   }, [isValid, registration]);
 
   useEffect(() => {
@@ -281,9 +288,13 @@ const Register = () => {
                 marginHorizontal={sizes.sm}
                 gradient={gradients.primary}
                 disabled={Object.values(isValid).includes(false)}>
-                <Text bold white transform="uppercase">
-                  {t('common.signup')}
-                </Text>
+                {loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Text bold white transform="uppercase">
+                    {t('common.signup')}
+                  </Text>
+                )}
               </Button>
               <Button
                 primary
@@ -291,7 +302,7 @@ const Register = () => {
                 shadow={!isAndroid}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
-            onPress={() => navigation.navigate('Login')}>
+                onPress={() => navigation.navigate('Login')}>
                 <Text bold primary transform="uppercase">
                   {t('common.signin')}
                 </Text>

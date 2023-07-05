@@ -1,11 +1,14 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Alert, Animated, Linking, StyleSheet} from 'react-native';
+import {
+  Alert,
+  Animated,
+  Linking,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import axios from 'axios';
-
 import {View} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import {Scope} from 'i18n-js';
 
 import {
   useIsDrawerOpen,
@@ -75,6 +78,7 @@ const DrawerContent = (
 ) => {
   const {navigation} = props;
   const {t} = useTranslation();
+  const [loading, setLoading] = useState(false);
   const {isDark, handleIsDark, isLogin, user, handleUser, handleIsLogin} =
     useData();
   const [active, setActive] = useState('Home');
@@ -86,6 +90,7 @@ const DrawerContent = (
   const textTheme = isDark ? 'white' : 'black';
   const HandleLogout = async () => {
     try {
+      setLoading(true);
       await axios.post('https://farmappbackend.onrender.com/logout');
       navigation.navigate('Login');
       handleUser({
@@ -105,6 +110,8 @@ const DrawerContent = (
       handleIsLogin(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,8 +122,6 @@ const DrawerContent = (
     },
     [navigation, setActive],
   );
-
-  const handleWebLink = useCallback((url) => Linking.openURL(url), []);
 
   // screen list for Drawer menu
   const screens = [
@@ -133,13 +138,6 @@ const DrawerContent = (
   const togglePicker = () => {
     setShowPicker(!showPicker);
   };
-  const handleLanguageChange = useCallback(
-    (selectedLanguage: string) => {
-      changeLanguage(selectedLanguage);
-    },
-    [changeLanguage],
-  );
-
   if (!isLogin) {
     screens.push(
       {name: t('screens.register'), to: 'Register', icon: assets.register},
@@ -219,34 +217,41 @@ const DrawerContent = (
           {t('menu.documentation')}
         </Text> */}
 
-        <Button
-          row
-          justify="flex-start"
-          marginTop={sizes.sm}
-          marginBottom={sizes.s}
-          disabled={!isLogin}
-          onPress={HandleLogout}>
-          <Block
-            flex={0}
-            radius={6}
-            align="center"
-            justify="center"
-            width={sizes.md}
-            height={sizes.md}
-            marginRight={sizes.s}
-            gradient={gradients.white}>
-            <Image
-              radius={0}
-              width={14}
-              height={14}
-              // color={colors.black}
-              source={assets.logout}
-            />
-          </Block>
-          <Text p color={textTheme}>
-            {t('Logout.title')}
-          </Text>
-        </Button>
+        {/* Render the Logout button only when isLogin is true */}
+        {isLogin && (
+          <Button
+            row
+            justify="flex-start"
+            marginTop={sizes.sm}
+            marginBottom={sizes.s}
+            disabled={!isLogin}
+            onPress={HandleLogout}>
+            <Block
+              flex={0}
+              radius={6}
+              align="center"
+              justify="center"
+              width={sizes.md}
+              height={sizes.md}
+              marginRight={sizes.s}
+              gradient={gradients.white}>
+              {loading ? (
+                <ActivityIndicator />
+              ) : (
+                <Image
+                  radius={0}
+                  width={14}
+                  height={14}
+                  // color={colors.black}
+                  source={assets.logout}
+                />
+              )}
+            </Block>
+            <Text p color={textTheme}>
+              {t('Logout.title')}
+            </Text>
+          </Button>
+        )}
 
         {/* // language button */}
 
@@ -278,18 +283,7 @@ const DrawerContent = (
           </Text>
         </Button>
 
-        {showPicker && (
-          <Picker
-            selectedValue={locale}
-            onValueChange={handleLanguageChange}
-            style={{backgroundColor: 'transparent'}}>
-              {/* // here is the errro in this line  */}
-            {/* <Picker.Item label="English" value="en" color={textTheme} /> */}
-            <Picker.Item label="English" value="en"  />
-            <Picker.Item label="Hindi" value="hi" />
-            <Picker.Item label="Bangla" value="bn" />
-          </Picker>
-        )}
+        {showPicker && <LanguageSelector />}
         {/* Dark mode Switch  */}
         <Block row justify="space-between" marginTop={sizes.sm}>
           <Text color={textTheme}>{t('darkMode')}</Text>
