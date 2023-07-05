@@ -21,11 +21,11 @@ const Profile = () => {
   const IMAGE_VERTICAL_MARGIN =
     (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
 
-  // useEffect(() => {
-  //   if (!isLogin) {
-  //     navigation.navigate('Login');
-  //   }
-  // }, [isLogin, navigation]);
+  useEffect(() => {
+    if (!isLogin) {
+      navigation.navigate('Login');
+    }
+  }, [isLogin, navigation]);
   const handleSocialLink = useCallback(
     (type: 'twitter' | 'dribbble') => {
       const url =
