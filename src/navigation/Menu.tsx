@@ -154,7 +154,7 @@ const DrawerContent = (
       removeClippedSubviews
       renderToHardwareTextureAndroid
       contentContainerStyle={{paddingBottom: sizes.padding}}>
-      <Block paddingHorizontal={sizes.padding} >
+      <Block paddingHorizontal={sizes.padding}>
         <Block flex={0} row align="center" marginBottom={sizes.l}>
           <Image
             radius={0}
@@ -279,13 +279,18 @@ const DrawerContent = (
         </Button>
 
         {showPicker && (
-          <Picker selectedValue={locale} onValueChange={handleLanguageChange}>
-            <Picker.Item label="English" value="en" />
+          <Picker
+            selectedValue={locale}
+            onValueChange={handleLanguageChange}
+            style={{backgroundColor: 'transparent'}}>
+              {/* // here is the errro in this line  */}
+            {/* <Picker.Item label="English" value="en" color={textTheme} /> */}
+            <Picker.Item label="English" value="en"  />
             <Picker.Item label="Hindi" value="hi" />
             <Picker.Item label="Bangla" value="bn" />
           </Picker>
         )}
-   {/* Dark mode Switch  */}
+        {/* Dark mode Switch  */}
         <Block row justify="space-between" marginTop={sizes.sm}>
           <Text color={textTheme}>{t('darkMode')}</Text>
           <Switch
