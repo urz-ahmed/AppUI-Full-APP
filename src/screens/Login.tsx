@@ -6,6 +6,7 @@ import {
   View,
   Vibration,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -29,6 +30,7 @@ interface IRegistrationValidation {
 }
 const Login = () => {
   const {isLogin, handleIsLogin, isDark, handleUser} = useData();
+  const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [isValid, setIsValid] = useState<IRegistrationValidation>({
@@ -99,7 +101,7 @@ const Login = () => {
     };
 
     try {
-      // setLoading(true)
+      setLoading(true);
       const response = await axios.post(`${API_URL}/login`, credintals);
       const {data} = response;
       console.log(data);
@@ -127,7 +129,7 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      // setLoading(false); // Set loading to false after the API request is completed
+      setLoading(false); // Set loading to false after the API request is completed
     }
   }, [isValid, registration]);
 
@@ -308,9 +310,13 @@ const Login = () => {
                 marginHorizontal={sizes.sm}
                 gradient={gradients.primary}
                 disabled={Object.values(isValid).includes(false)}>
-                <Text bold white transform="uppercase">
-                  {t('common.signin')}
-                </Text>
+                {loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Text bold white transform="uppercase">
+                    {t('common.signin')}
+                  </Text>
+                )}
               </Button>
               <Button
                 primary
