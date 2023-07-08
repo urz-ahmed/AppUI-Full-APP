@@ -1,13 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 import {TouchableWithoutFeedback} from 'react-native';
-
 import Text from './Text';
 import Block from './Block';
 import Image from './Image';
-import {useTheme, useTranslation} from '../hooks/';
+import {useTheme, useTranslation, useData} from '../hooks/';
 import {IArticle} from '../constants/types';
-
+import axios from 'axios';
 const Article = ({
   title,
   description,
@@ -19,8 +18,45 @@ const Article = ({
   user,
   onPress,
 }: IArticle) => {
+  const {isLogin, isDark} = useData();
   const {t} = useTranslation();
   const {colors, gradients, icons, sizes} = useTheme();
+  const [News, SetNews] = useState('');
+  const API_URL =
+    'https://newsapi.org/v2/top-headlines?country=in&apiKey=ba4d97e8640f45d19149d26f024d39f7';
+  // useEffect(() => {
+  //   try {
+  //     axios
+  //       .get(API_URL)
+  //       .then((res) => {
+  //         const filteredResults = res.data.articles.filter(
+  //           (article) =>
+  //             article.title &&
+  //             article.description &&
+  //             article.content &&
+  //             article.author &&
+  //             article.publishedAt &&
+  //             article.urlToImage,
+  //         );
+  //         SetNews(filteredResults);
+  //         console.log(News[0].urlToImage);
+
+  //         // Check if News is not empty before accessing specific properties
+  //         // if (News&&res.data.results.length > 0) {
+  //         //   console.log(News[0].title);
+  //         // } else {
+  //         //   console.log("No Title");
+  //         // }
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         // Handle the error appropriately (e.g., show an error message)
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //     // Handle the error appropriately (e.g., show an error message)
+  //   }
+  // }, [isLogin]);
 
   // render card for Newest & Fashion
   if (category?.id !== 1) {
