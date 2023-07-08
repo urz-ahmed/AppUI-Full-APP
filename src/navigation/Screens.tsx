@@ -4,6 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
+import Assistant from '../screens/Assistant';
+import ChatScreen from '../screens/ChatScreen';
 
 
 const Stack = createStackNavigator();
@@ -18,6 +20,7 @@ export default () => {
         name="Home"
         component={Home}
         options={{title: t('navigation.home')}}
+        
       />
 
       <Stack.Screen
@@ -48,6 +51,16 @@ export default () => {
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Assistant"
+        component={Assistant}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
         options={{headerShown: false}}
       />
 

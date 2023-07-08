@@ -62,6 +62,7 @@ export const ICONS: ThemeIcons = {
   register: require('../assets/icons/register.png'),
   logout: require('../assets/icons/logout.png'),
   login: require('../assets/icons/login2xl.png'),
+  Assistant: require('../assets/icons/voice.png'),
   LangIcon: require('../assets/icons/translate.png'),
   rental: require('../assets/icons/rental.png'),
   search: require('../assets/icons/search.png'),

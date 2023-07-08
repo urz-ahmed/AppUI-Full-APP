@@ -123,9 +123,8 @@ const DrawerContent = (
     {name: t('screens.home'), to: 'Home', icon: assets.home},
     {name: t('screens.components'), to: 'Components', icon: assets.components},
     {name: t('screens.articles'), to: 'Articles', icon: assets.document},
-    {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
-    {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
 
+    {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
     {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
   ];
   // language selector
@@ -146,6 +145,12 @@ const DrawerContent = (
       {name: t('screens.login'), to: 'Login', icon: assets.login},
     );
   }
+
+  screens.splice(2, 0, {
+    name: t('screens.Assistant'),
+    to: 'Assistant',
+    icon: assets.Assistant,
+  });
 
   return (
     <DrawerContentScrollView
@@ -283,9 +288,9 @@ const DrawerContent = (
             selectedValue={locale}
             onValueChange={handleLanguageChange}
             style={{backgroundColor: 'transparent'}}>
-              {/* // here is the errro in this line  */}
+            {/* // here is the errro in this line  */}
             {/* <Picker.Item label="English" value="en" color={textTheme} /> */}
-            <Picker.Item label="English" value="en"  />
+            <Picker.Item label="English" value="en" />
             <Picker.Item label="Hindi" value="hi" />
             <Picker.Item label="Bangla" value="bn" />
           </Picker>

@@ -15,6 +15,7 @@ export const COLORS: ThemeColors = {
   // base colors
   /** UI color for #primary */
   primary: '#A0C49D',
+  Primary : "#ff385cff",
   /** UI color for #secondary */
   secondary: '#C3EDC0', // '#8392AB',
   /** UI color for #tertiary */
@@ -25,6 +26,7 @@ export const COLORS: ThemeColors = {
   white: '#FFFFFF',
 
   dark: '#252F40',
+  // dark: '#121212',
   light: '#E9ECEF',
 
   // gray variations

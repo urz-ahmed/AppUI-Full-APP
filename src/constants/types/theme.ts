@@ -78,6 +78,7 @@ export interface IThemeProvider {
 export interface ThemeColors {
   text: ColorValue;
   primary: ColorValue;
+  Primary: ColorValue;
   secondary: ColorValue;
   tertiary: ColorValue;
   black: ColorValue;
@@ -235,6 +236,7 @@ export interface ThemeIcons {
   payment: ImageSourcePropType;
   profile: ImageSourcePropType;
   register: ImageSourcePropType;
+  Assistant: ImageSourcePropType;
   login: ImageSourcePropType;
   logout: ImageSourcePropType;
   LangIcon: ImageSourcePropType;
