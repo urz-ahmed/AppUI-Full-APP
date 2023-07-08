@@ -128,7 +128,8 @@ const DrawerContent = (
     {name: t('screens.home'), to: 'Home', icon: assets.home},
     {name: t('screens.components'), to: 'Components', icon: assets.components},
     {name: t('screens.articles'), to: 'Articles', icon: assets.document},
-    {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
+    // {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
+    {name: "Weather Report", to: 'Weather', icon: assets.profile},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
 
     {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
