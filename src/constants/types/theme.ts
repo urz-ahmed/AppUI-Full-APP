@@ -76,6 +76,7 @@ export interface IThemeProvider {
 }
 
 export interface ThemeColors {
+  textInverse: any;
   text: ColorValue;
   primary: ColorValue;
   Primary: ColorValue;

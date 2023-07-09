@@ -291,7 +291,7 @@ const Cards = () => {
             <TouchableOpacity>
               <Block row align="center">
                 <Text p semibold marginRight={sizes.s} color={colors.link}>
-                  Read Article
+                  More
                 </Text>
                 <Image source={assets.arrow} color={colors.link} />
               </Block>

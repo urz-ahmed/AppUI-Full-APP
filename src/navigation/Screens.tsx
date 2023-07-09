@@ -1,20 +1,19 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import {useData, useTheme} from '../hooks/';
 import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
-// <<<<<<< HEAD
 import Assistant from '../screens/Assistant';
 import ChatScreen from '../screens/ChatScreen';
-// =======
 import Weather from '../screens/Weather';
-// >>>>>>> 99bca51207f76886aa94e709407b1258dbc012ff
-
 
 const Stack = createStackNavigator();
 
 export default () => {
+  const {assets, colors, fonts, gradients, sizes} = useTheme();
+  const {handleUser, isDark} = useData();
+  const themeColor = isDark ? colors.dark : colors.background;
   const {t} = useTranslation();
   const screenOptions = useScreenOptions();
 
@@ -23,8 +22,13 @@ export default () => {
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{title: t('navigation.home')}}
-        
+        options={{
+          title: t('navigation.home'),
+          headerStyle: {
+            backgroundColor: themeColor,
+          },
+          headerTintColor: isDark ? colors.text : colors.textInverse,
+        }}
       />
 
       <Stack.Screen
@@ -36,10 +40,19 @@ export default () => {
       <Stack.Screen
         name="Articles"
         component={Articles}
-        options={{title: t('navigation.articles')}}
+        options={{
+          title: t('navigation.articles'),
+          headerStyle: {
+            backgroundColor: themeColor,
+          },
+          headerTitleStyle: {
+            alignItems: 'flex-end',
+            color: '#fff',
+          },
+          headerTintColor: isDark ? colors.text : colors.textInverse,
+        }}
       />
 
-      {/* // <Stack.Screen name="Pro" component={Pro} options={screenOptions.pro} /> */}
       <Stack.Screen
         name="Weather"
         component={Weather}
@@ -51,7 +64,6 @@ export default () => {
         component={Profile}
         options={{headerShown: false}}
       />
-
       <Stack.Screen
         name="Register"
         component={Register}
@@ -72,8 +84,6 @@ export default () => {
         component={ChatScreen}
         options={{headerShown: false}}
       />
-
-    
     </Stack.Navigator>
   );
 };
