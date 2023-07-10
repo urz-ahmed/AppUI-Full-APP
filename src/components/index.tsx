@@ -8,7 +8,7 @@ import Checkbox from './Checkbox';
 import Image from './Image';
 import Article from './Article';
 import Product from './Product';
-
+import SearchBar from './SearchBar';
 export {
   Block,
   Button,
@@ -20,4 +20,5 @@ export {
   Article,
   Product,
   Modal,
+  SearchBar,
 };

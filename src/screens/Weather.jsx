@@ -1,4 +1,4 @@
-import { View, Text, Alert, SafeAreaView, StyleSheet, ActivityIndicator, ScrollView, RefreshControl,FlatList, Image, Dimensions } from "react-native"
+import { View, Text, Alert, SafeAreaView, StyleSheet, ActivityIndicator, ScrollView, RefreshControl, FlatList, Image, Dimensions, ImageBackground } from "react-native"
 import * as Location from "expo-location"
 import { useEffect, useState } from "react"
 import { useTheme } from "../hooks"
@@ -7,7 +7,7 @@ const openWeatherKey = "3584e8b5428ee7ee43c9e8bd7b681e1e"
 let url = `https://api.openweathermap.org/data/2.5/weather?`
 // let url =`https://api.openweathermap.org/data/2.5/onecall?`
 const Weather = () => {
-  const {assets, colors, gradients, sizes} = useTheme();
+  const { assets, colors, gradients, sizes } = useTheme();
   const [forecast, setForecast] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const loadForecast = async () => {
@@ -46,67 +46,72 @@ const Weather = () => {
   }
   const current = forecast.weather[0] // get the current weather data
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView refreshControl={<RefreshControl
-        refreshing={refreshing}
-        onRefresh={() => loadForecast()}
-      />}
-        style={{ marginTop: 50 }}
-      >
-        <Text style={styles.title}>
-          Current Weather
-        </Text>
-        <Text style={{ alignItems: 'center', textAlign: 'center' }}>
-          {forecast.name}, {forecast.sys.country}
-        </Text>
-        <View style={styles.current}>
-          <Image
-            style={styles.largeIcon}
-            source={{
-              uri: `https://openweathermap.org/img/wn/${current.icon}@4x.png`
-            }}
-          />
-          <Text style={styles.currentTemp}>
-            {Math.round(forecast.main.temp)} ℃
+    <ImageBackground blurRadius={70} source={require('../assets/images/bg.png')} style={styles.backgroundImage} className="absolute w-full h-full" >
+      <SafeAreaView style={styles.container}>
+        <ScrollView refreshControl={<RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => loadForecast()}
+        />}
+          style={{ marginTop: 50 }}
+        >
+          <Text style={styles.title}>
+            Current Weather
           </Text>
-        </View>
-        <Text style={styles.currentDescription}>
-          {current.description}
-        </Text>
-        <Block row style={styles.extraInfo}>
-          <Block card  marginHorizontal={sizes.sm} style={styles.info}>
+          <Text style={{ alignItems: 'center', textAlign: 'center', color:'white' }}>
+            {forecast.name}, {forecast.sys.country}
+          </Text>
+          <View style={styles.current}>
             <Image
-              source={require('../assets/icons/temperature.png')}
-              style={{ width: 40, height: 40, borderRadius: 40 / 2, marginLeft: 50 }}
+              style={styles.largeIcon}
+              source={{
+                uri: `https://openweathermap.org/img/wn/${current.icon}@4x.png`
+              }}
             />
-            <Text style={styles.text}>
-              {forecast.main.feels_like} ℃
+            <Text style={styles.currentTemp}>
+              {Math.round(forecast.main.temp)} ℃
             </Text>
-            <Text style={styles.text}>
-              Feels Like
-            </Text>
+          </View>
+          <Text style={styles.currentDescription}>
+            {current.description}
+          </Text>
+          <Block row style={styles.extraInfo}>
+            <Block card marginHorizontal={sizes.sm} style={styles.info}>
+              <Image
+                source={require('../assets/icons/temperature.png')}
+                style={{ width: 40, height: 40, borderRadius: 40 / 2, marginLeft: 50 }}
+              />
+              <Text style={styles.text}>
+                {forecast.main.feels_like} ℃
+              </Text>
+              <Text style={styles.text}>
+                Feels Like
+              </Text>
+            </Block>
+            <Block card marginHorizontal={sizes.sm} style={styles.info}>
+              <Image
+                source={require('../assets/icons/humidity.png')}
+                style={{ width: 40, height: 40, borderRadius: 40 / 2, marginLeft: 50 }}
+              />
+              <Text style={styles.text}>
+                {forecast.main.humidity} %
+              </Text>
+              <Text style={styles.text}>
+                Humidity
+              </Text>
+            </Block>
           </Block>
-          <Block card  marginHorizontal={sizes.sm} style={styles.info}>
-            <Image
-              source={require('../assets/icons/humidity.png')}
-              style={{ width: 40, height: 40, borderRadius: 40 / 2, marginLeft: 50 }}
-            />
-            <Text style={styles.text}>
-              {forecast.main.humidity} %
-            </Text>
-            <Text style={styles.text}>
-              Humidity
-            </Text>
-          </Block>
-        </Block>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   container: {
     flex: 1,
-    backgroundColor: '#E2F6CA'
   },
   loading: {
 
@@ -115,12 +120,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 36,
     fontWeight: 'bold',
-    color: 'green',
+    color: 'white',
   },
   current: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    color:'white'
   },
   largeIcon: {
     width: 300,
@@ -129,31 +135,33 @@ const styles = StyleSheet.create({
   currentTemp: {
     fontSize: 30,
     fontWeight: '400',
-    textAlign: 'center'
+    textAlign: 'center',
+    color:'white'
   },
   currentDescription: {
     width: '100%',
     textAlign: 'center',
     fontSize: 20,
     marginBottom: 5,
-    fontWeight: "200"
+    fontWeight: "200",
+    color:'white',
   },
-  info:{
-    width: Dimensions.get('screen').width/2,
+  info: {
+    width: Dimensions.get('screen').width / 2,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius:15,
-    padding:20,
-    justifyContent:'center'
+    borderRadius: 15,
+    padding: 20,
+    justifyContent: 'center'
   },
-  text:{
-    fontSize:15,
-    fontWeight:'300'
+  text: {
+    fontSize: 15,
+    fontWeight: '300'
   },
-  subtitle:{
-    fontSize:20,
-    marginVertical:20,
-    marginLeft:7,
-    color:'green'
+  subtitle: {
+    fontSize: 20,
+    marginVertical: 20,
+    marginLeft: 7,
+    color: 'green'
   }
 })
 export default Weather;

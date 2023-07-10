@@ -64,7 +64,9 @@
     "settings": "Settings",
     "register": "Create account",
     "logout": "Logout",
-    "login": "Login"
+    "login": "Login",
+    "news": "News",
+    "weather": "Weather Report"
   },
   "navigation": {
     "home": "Home",
@@ -82,7 +84,8 @@
     "register": "Register",
     "login": "Login",
     "extra": "Automotive",
-    "shopping": "Shopping Cart"
+    "shopping": "Shopping Cart",
+    "news": "News"
   },
   "menu": {
     "started": "Getting Started",

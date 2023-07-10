@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useData, useTheme} from '../hooks/';
-import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
+import {Components, Home, Profile, Register, News} from '../screens';
 import SeedVerifier from '../screens/SeedVerifier';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
@@ -32,17 +32,17 @@ export default () => {
         }}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Components"
         component={Components}
         options={screenOptions.components}
-      />
+      /> */}
 
       <Stack.Screen
-        name="Articles"
-        component={Articles}
+        name="News"
+        component={News}
         options={{
-          title: t('navigation.articles'),
+          title: t('navigation.news'),
           headerStyle: {
             backgroundColor: themeColor,
           },
@@ -57,7 +57,7 @@ export default () => {
         name="SeedVerifier"
         component={SeedVerifier}
         options={{
-          title: "Seed Verifier",
+          title: 'Seed Verifier',
           headerStyle: {
             backgroundColor: themeColor,
           },
@@ -72,7 +72,17 @@ export default () => {
       <Stack.Screen
         name="Weather"
         component={Weather}
-        options={{headerShown: true}}
+        options={{
+          title: 'Seed Verifier',
+          headerStyle: {
+            backgroundColor: themeColor,
+          },
+          headerTitleStyle: {
+            alignItems: 'flex-end',
+            color: '#fff',
+          },
+          headerTintColor: isDark ? colors.text : colors.textInverse,
+        }}
       />
 
       <Stack.Screen
