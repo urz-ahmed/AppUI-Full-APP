@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useData, useTheme} from '../hooks/';
 import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
+import SeedVerifier from '../screens/SeedVerifier';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
 import Assistant from '../screens/Assistant';
@@ -42,6 +43,21 @@ export default () => {
         component={Articles}
         options={{
           title: t('navigation.articles'),
+          headerStyle: {
+            backgroundColor: themeColor,
+          },
+          headerTitleStyle: {
+            alignItems: 'flex-end',
+            color: '#fff',
+          },
+          headerTintColor: isDark ? colors.text : colors.textInverse,
+        }}
+      />
+      <Stack.Screen
+        name="SeedVerifier"
+        component={SeedVerifier}
+        options={{
+          title: "Seed Verifier",
           headerStyle: {
             backgroundColor: themeColor,
           },
