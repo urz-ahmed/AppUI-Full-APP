@@ -84,6 +84,9 @@
     "extra": "Automotive",
     "shopping": "Shopping Cart"
   },
+  "chat":{
+    "title":"send"
+  },
   "menu": {
     "started": "Getting Started",
     "documentation": "Documentation"

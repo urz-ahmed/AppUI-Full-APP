@@ -14,6 +14,8 @@ export default function Assistant() {
   const UserName = !isLogin ? 'AI Pair' : user.name;
   const themeColor = isDark ? colors.dark : colors.background;
   const textTheme = isDark ? 'white' : 'black';
+
+
   return (
     <SafeAreaView
       className="flex-1 flex justify-around"

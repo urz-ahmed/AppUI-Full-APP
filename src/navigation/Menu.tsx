@@ -88,6 +88,7 @@ const DrawerContent = (
   const labelColor = colors.text;
   const themeColor = isDark ? gradients.dark : gradients.light;
   const textTheme = isDark ? 'white' : 'black';
+  
   const HandleLogout = async () => {
     const {locale, changeLanguage} = useTranslation();
     

@@ -17,58 +17,32 @@ import {
 import {apiCall} from '../api/openAI';
 import Features from '../components/Feature';
 import Tts from 'react-native-tts';
-import {Audio} from 'expo-av';
-import {Configuration, OpenAIApi} from 'openai';
-import {dummyMessages} from '../constants/message';
-import {Block, Button, Input} from '../components';
+import { Audio } from 'expo-av';
+
+import {dummyMessages} from '../constants/message'
 const ChatScreen = () => {
+  
   const [result, setResult] = useState('');
   const [rec, setRec] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = React.useState();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(dummyMessages);
   const [speaking, setSpeaking] = useState(false);
-  const {assets, colors, gradients, sizes} = useTheme();
   const scrollViewRef = useRef();
   const {isDark} = useData();
-
+  const {colors} = useTheme();
   const {t} = useTranslation();
   const themeColor = isDark ? colors.dark : colors.background;
   const textTheme = isDark ? 'white' : 'black';
-  const [promptChat, setPromptChat] = useState('');
+ 
   const [sound, setSound] = React.useState();
-  const StartSound = '../assets/audio/hello2.mp3';
-  const EndSound = '../assets/audio/helloend.mp3';
-  const OPENAI_API_KEY = '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';
-  async function getChatResponse(prompt: string) {
-    const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {role: 'system', content: 'You are a helpful assistant.'},
-        {role: 'user', content: prompt},
-      ],
-    });
-
-    return completion.data.choices[0].message.content;
-  }
-  const configuration = new Configuration({
-    apiKey: OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
-
-  const handleChat = () => {
-    getChatResponse(promptChat)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+const StartSound='../assets/audio/hello2.mp3'
+const EndSound='../assets/audio/helloend.mp3'
 
   async function playSound() {
     console.log('Loading Sound');
-    const {sound} = await Audio.Sound.createAsync(require(StartSound));
+    const { sound } = await Audio.Sound.createAsync( require(StartSound)
+    );
     setSound(sound);
 
     console.log('Playing Sound');
@@ -76,7 +50,8 @@ const ChatScreen = () => {
   }
   async function pauseSound() {
     console.log('Loading Sound');
-    const {sound} = await Audio.Sound.createAsync(require(EndSound));
+    const { sound } = await Audio.Sound.createAsync( require(EndSound)
+    );
     setSound(sound);
 
     console.log('Playing Sound');
@@ -91,6 +66,7 @@ const ChatScreen = () => {
       : undefined;
   }, [sound]);
 
+  
   const speechStartHandler = (e) => {
     console.log('speech start event', e);
   };
@@ -108,9 +84,33 @@ const ChatScreen = () => {
     console.log('speech error: ', e);
   };
 
+  // const startRecording = async () => {
+  //   console.log('requesting recording');
+    
+  //   setRec(true);
+  //    await Tts.stop();
+  //   try {
+  //     await Voice.start('en-GB'); // en-US
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
+  // const stopRecording = async () => {
+  //   try {
+  //     await Voice.stop();
+  //     setRec(false);
+  //     fetchResponse();
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
+
+
+  
   async function startRecording() {
-    setRec(true);
+       setRec(true);
     try {
+
       console.log('Requesting permissions..');
       await Audio.requestPermissionsAsync();
       await Audio.setAudioModeAsync({
@@ -119,10 +119,9 @@ const ChatScreen = () => {
       });
 
       console.log('Starting recording..');
-      const {recording} = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY,
-      );
-      playSound();
+      const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
+        );
+        playSound();
       setRecording(recording);
       console.log('Recording started');
     } catch (err) {
@@ -131,21 +130,22 @@ const ChatScreen = () => {
   }
 
   async function stopRecording() {
-    setRec(false);
+          setRec(false);
     console.log('Stopping recording..');
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
-    });
+    await Audio.setAudioModeAsync(
+      {
+        allowsRecordingIOS: false,
+      }
+    );
     const uri = recording.getURI();
     console.log('Recording stopped and stored at', uri);
     pauseSound();
   }
 
-  const clear = async () => {
-    // await Tts.stop();
-    setRec(false);
+  const clear = async() => {
+    await Tts.stop();
     setSpeaking(false);
     setLoading(false);
     setMessages([]);
@@ -161,18 +161,21 @@ const ChatScreen = () => {
       // scroll to the bottom of the view
       updateScrollView();
 
-      setLoading(true);
-      const response = await getChatResponse(result.trim());
+      // fetching response from chatGPT with our prompt and old messages
+      apiCall(result.trim(), newMessages).then((res) => {
+        console.log('got api data');
+        setLoading(false);
+        if (res.success) {
+          setMessages([...res.data]);
+          setResult('');
+          updateScrollView();
 
-      // const newMessages = [...messages];
-      newMessages.push({role: 'user', content: result.trim()});
-      newMessages.push({role: 'assistant', content: response});
-
-      setMessages(newMessages);
-      setResult('');
-      setLoading(false);
-      updateScrollView();
-      startTextToSpeach({role: 'assistant', content: response});
+          // now play the response to user
+          startTextToSpeach(res.data[res.data.length - 1]);
+        } else {
+          Alert.alert('Error', res.msg);
+        }
+      });
     }
   };
 
@@ -182,32 +185,27 @@ const ChatScreen = () => {
     }, 200);
   };
 
-  const startTextToSpeach = async (message) => {
+  const startTextToSpeach = (message) => {
     if (!message.content.includes('https')) {
       setSpeaking(true);
-      try {
-        await Tts.stop();
-        await Tts.speak(message.content, {
-          iosVoiceId: 'com.apple.ttsbundle.Samantha-compact',
-          rate: 0.5,
-        });
-      } catch (error) {
-        console.log('Error in Text to Speech', error);
-      }
+      // playing response with the voice id and voice speed
+      Tts.speak(message.content, {
+        iosVoiceId: 'com.apple.ttsbundle.Samantha-compact',
+        rate: 0.5,
+      });
     }
   };
 
-  const stopSpeaking = async () => {
+  const stopSpeaking = async() => {
     try {
       await Tts.stop();
       setSpeaking(false);
     } catch (error) {
       console.log('error', error);
     }
+   
   };
-  const handleChatChange = (value: React.SetStateAction<string>) => {
-    setPromptChat(value);
-  };
+
   useEffect(() => {
     // voice handler events
     Voice.onSpeechStart = speechStartHandler;
@@ -216,9 +214,10 @@ const ChatScreen = () => {
     Voice.onSpeechError = speechErrorHandler;
 
     // text to speech events
+     
 
     // Tts.setDefaultLanguage('en-IE');
-
+    
     Tts.addEventListener('tts-start', (event) => console.log('start', event));
     Tts.addEventListener('tts-finish', (event) => {
       console.log('finish', event);
@@ -233,7 +232,7 @@ const ChatScreen = () => {
   }, []);
 
   return (
-    <View className="flex-1  mt-3" style={{backgroundColor: themeColor}}>
+    <View className="flex-1  mt-2" style={{backgroundColor: themeColor}}>
       {/* <StatusBar barStyle="dark-content" /> */}
       <SafeAreaView className="flex-1 flex mx-5">
         {/* bot icon */}
@@ -269,12 +268,12 @@ const ChatScreen = () => {
                       return (
                         <View key={index} className="flex-row justify-start">
                           <View className="p-2 flex rounded-2xl bg-cyan-100 rounded-tl-none">
-                            {/* <Image
+                            <Image
                               source={{uri: message.content}}
                               className="rounded-2xl"
                               resizeMode="contain"
                               style={{height: wp(60), width: wp(60)}}
-                            /> */}
+                            />
                           </View>
                         </View>
                       );
@@ -314,40 +313,22 @@ const ChatScreen = () => {
         ) : (
           <Features />
         )}
-        <View className="">
-          <Input
-            placeholder="Enter Text"
-            marginBottom={sizes.sm}
-            value={promptChat}
-            onChangeText={handleChatChange}
-          />
-          <TouchableOpacity
-            onPress={handleChat}
-            className="flex items-end justify-top ">
-            {/* recording start button */}
-            <Image
-              className="rounded-full "
-              source={require('../assets/icons/sendLarge.png')}
-              style={{width: hp(2), height: hp(2)}}
-            />
-          </TouchableOpacity>
-        </View>
+
         {/* recording, clear and stop buttons */}
         <View className="flex justify-center items-center">
           {loading ? (
             <Image
               source={require('../assets/images/loading.gif')}
-              style={{width: hp(10), height: hp(10), borderRadius: 100}}
+              style={{width: hp(10), height: hp(10),borderRadius:100}}
             />
           ) : rec ? (
-            <TouchableOpacity
-              className="space-y-2 rounded-full"
-              onPress={stopRecording}>
+            <TouchableOpacity className="space-y-2 rounded-full" onPress={stopRecording}>
               {/* recording stop button */}
               <Image
                 className="rounded-full"
                 source={require('../assets/images/voiceLoading.gif')}
-                style={{width: hp(10), height: hp(10), borderRadius: 100}}
+                
+                style={{width: hp(10), height: hp(10),borderRadius:100}}
               />
             </TouchableOpacity>
           ) : (
@@ -360,7 +341,6 @@ const ChatScreen = () => {
               />
             </TouchableOpacity>
           )}
-
           {messages.length > 0 && (
             <TouchableOpacity
               onPress={clear}
@@ -368,7 +348,6 @@ const ChatScreen = () => {
               <Text className="text-white font-semibold">Clear</Text>
             </TouchableOpacity>
           )}
-
           {speaking && (
             <TouchableOpacity
               onPress={stopSpeaking}
