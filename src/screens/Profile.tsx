@@ -69,7 +69,7 @@ const Profile = () => {
 
           {/* profile: about me */}
           <Block paddingHorizontal={sizes.sm}>
-            <Text h5 semibold marginBottom={sizes.s} marginTop={sizes.sm} color={textTheme}>
+            <Text h5 semibold marginTop={sizes.sm} color={textTheme}>
               {t('profile.aboutMe')}
             </Text>
             <Text p lineHeight={26} color={textTheme}>

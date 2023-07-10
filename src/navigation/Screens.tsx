@@ -57,7 +57,7 @@ export default () => {
         name="SeedVerifier"
         component={SeedVerifier}
         options={{
-          title: "Seed Verifier",
+          title: 'Seed Verifier',
           headerStyle: {
             backgroundColor: themeColor,
           },
@@ -72,7 +72,17 @@ export default () => {
       <Stack.Screen
         name="Weather"
         component={Weather}
-        options={{headerShown: true}}
+        options={{
+          title: 'Seed Verifier',
+          headerStyle: {
+            backgroundColor: themeColor,
+          },
+          headerTitleStyle: {
+            alignItems: 'flex-end',
+            color: '#fff',
+          },
+          headerTintColor: isDark ? colors.text : colors.textInverse,
+        }}
       />
 
       <Stack.Screen
