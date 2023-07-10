@@ -42,7 +42,7 @@ export default function Features() {
   }, []);
   return (
     <ScrollView
-      style={{height: hp(60)}}
+      style={{height: hp(50)}}
       bounces={false}
       showsVerticalScrollIndicator={false}
       className="space-y-4">
@@ -58,8 +58,8 @@ export default function Features() {
           />
           <Text
             style={{fontSize: wp(4.8)}}
-            className="font-semibold text-gray-700">
-            ChatGPT
+            className="font-bold underline underline-offset-4 text-gray-700">
+           Disease Detection
           </Text>
         </View>
 
@@ -78,7 +78,7 @@ export default function Features() {
           <Text
             style={{fontSize: wp(4.8)}}
             className="font-semibold text-gray-700">
-            DALL-E
+          Fake Seed Verification 
           </Text>
         </View>
 
@@ -96,8 +96,8 @@ export default function Features() {
           />
           <Text
             style={{fontSize: wp(4.8)}}
-            className="font-semibold text-gray-700">
-            Smart AI
+            className="font-semibold text-sm text-gray-700">
+            Markets & Vegetables Mandis 
           </Text>
         </View>
 
