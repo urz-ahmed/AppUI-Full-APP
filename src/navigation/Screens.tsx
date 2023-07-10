@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useData, useTheme} from '../hooks/';
-import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
+import {Components, Home, Profile, Register, News} from '../screens';
 import SeedVerifier from '../screens/SeedVerifier';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
@@ -32,17 +32,17 @@ export default () => {
         }}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Components"
         component={Components}
         options={screenOptions.components}
-      />
+      /> */}
 
       <Stack.Screen
-        name="Articles"
-        component={Articles}
+        name="News"
+        component={News}
         options={{
-          title: t('navigation.articles'),
+          title: t('navigation.news'),
           headerStyle: {
             backgroundColor: themeColor,
           },

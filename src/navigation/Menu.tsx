@@ -88,9 +88,8 @@ const DrawerContent = (
   const labelColor = colors.text;
   const themeColor = isDark ? gradients.dark : gradients.light;
   const textTheme = isDark ? 'white' : 'black';
+  // const {locale, changeLanguage} = useTranslation();
   const HandleLogout = async () => {
-    const {locale, changeLanguage} = useTranslation();
-    
     try {
       setLoading(true);
       await axios.post('https://farmappbackend.onrender.com/logout');
@@ -100,11 +99,9 @@ const DrawerContent = (
         email: 'email',
         name: 'username',
         department: 'Department',
-        stats: {posts: 0, followers: 0, following: 0},
-        social: {twitter: 'twitter', dribbble: 'dribbble'},
         about: 'about',
         avatar:
-          'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
+          'https://w7.pngwing.com/pngs/802/534/png-transparent-man-cutting-rice-plants-farmer-rice-agriculture-harvest-the-farmer-who-receives-the-wheat-child-leaf-grass.png',
       });
       await AsyncStorage.removeItem('user');
       await AsyncStorage.removeItem('isLogin');
@@ -129,13 +126,12 @@ const DrawerContent = (
   // screen list for Drawer menu
   const screens = [
     {name: t('screens.home'), to: 'Home', icon: assets.home},
-    {name: t('screens.components'), to: 'Components', icon: assets.components},
-    {name: t('screens.articles'), to: 'Articles', icon: assets.document},
+    // {name: t('screens.components'), to: 'Components', icon: assets.components},
+    {name: t('screens.news'), to: 'News', icon: assets.document},
     
     // {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
-    {name: "Weather Report", to: 'Weather', icon: assets.profile},
+    {name: t('screens.weather'), to: 'Weather', icon: assets.profile},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
-    {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
   ];
   // language selector
   const {locale, changeLanguage} = useTranslation();
@@ -299,20 +295,7 @@ const DrawerContent = (
             Language
           </Text>
         </Button>
-
-        {showPicker && (
-          <Picker
-            selectedValue={locale}
-            onValueChange={handleLanguageChange}
-            style={{backgroundColor: 'transparent'}}>
-            {/* // here is the errro in this line  */}
-            {/* <Picker.Item label="English" value="en" color={textTheme} /> */}
-            <Picker.Item label="English" value="en" />
-            <Picker.Item label="Hindi" value="hi" />
-            <Picker.Item label="Bangla" value="bn" />
-          </Picker>
-        )}
-        {/* {showPicker && <LanguageSelector />} */}
+        {showPicker && <LanguageSelector />}
         {/* Dark mode Switch  */}
         <Block row justify="space-between" marginTop={sizes.sm}>
           <Text color={textTheme}>{t('darkMode')}</Text>

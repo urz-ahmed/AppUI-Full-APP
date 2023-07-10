@@ -65,12 +65,10 @@ const Login = () => {
               email,
               name: username,
               department: 'Marketing Manager',
-              stats: {posts: 323, followers: 53200, following: 749000},
-              social: {twitter: 'CreativeTim', dribbble: 'creativetim'},
               about:
                 'Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).',
               avatar:
-                'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
+                'https://w7.pngwing.com/pngs/802/534/png-transparent-man-cutting-rice-plants-farmer-rice-agriculture-harvest-the-farmer-who-receives-the-wheat-child-leaf-grass.png',
             });
           }
         })
@@ -118,11 +116,9 @@ const Login = () => {
         email: 'email',
         name: 'username',
         department: 'Department',
-        stats: {posts: 0, followers: 0, following: 0},
-        social: {twitter: 'twitter', dribbble: 'dribbble'},
         about: 'about',
         avatar:
-          'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
+          'https://w7.pngwing.com/pngs/802/534/png-transparent-man-cutting-rice-plants-farmer-rice-agriculture-harvest-the-farmer-who-receives-the-wheat-child-leaf-grass.png',
       });
       handleUserData();
       navigation.navigate('Home');
