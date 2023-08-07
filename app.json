@@ -19,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abhishek3459.krishisarthi"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,6 +33,11 @@
     },
     "plugins": [
       "expo-localization"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "d87c9e7d-8e8a-47bc-bea5-86a6b565d6b3"
+      }
+    }
   }
 }
