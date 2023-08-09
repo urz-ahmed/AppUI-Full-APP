@@ -26,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#A0C49D"
-      }
+      },
+      "package": "com.abhishek3459.krishisarthi"
     },
     "web": {
       "favicon": "./assets/favicon.png"

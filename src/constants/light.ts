@@ -25,7 +25,7 @@ export const COLORS: ThemeColors = {
   black: '#252F40',
   white: '#FFFFFF',
 
-  dark: '#252F40',
+  dark: '#282A3A',
   // dark: '#121212',
   light: '#E9ECEF',
 

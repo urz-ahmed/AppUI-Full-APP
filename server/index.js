@@ -49,6 +49,7 @@ app.use(require('./routes/logout_routes')) // logout page
 app.use(require('./routes/signup_routes')) // signup page
 app.use(require('./routes/question_routes')) // question page
 app.use(require('./routes/admin_routes')) // admin page
+app.use(require('./routes/bard')) // admin page
 app.use(require('./routes/preflight_routes')) // admin page
 
 app.listen(port, (err) => {

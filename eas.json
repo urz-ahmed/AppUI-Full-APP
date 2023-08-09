@@ -2,21 +2,22 @@
   "cli": {
     "version": ">= 3.18.3"
   },
-  "build": {
-    "development": {
-      "distribution": "internal",
-      "android": {
-        "gradleCommand": ":app:assembleDebug"
+    "build": {
+      "preview": {
+        "android": {
+          "buildType": "apk"
+        }
       },
-      "ios": {
-        "buildConfiguration": "Debug"
-      }
+      "preview2": {
+        "android": {
+          "gradleCommand": ":app:assembleRelease"
+        }
+      },
+      "preview3": {
+        "developmentClient": true
+      },
+      "production": {}
     },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {}
-  },
   "submit": {
     "production": {}
   }
