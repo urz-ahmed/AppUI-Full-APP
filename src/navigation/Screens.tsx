@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useData, useTheme} from '../hooks/';
-import {Components, Home, Profile, Register, News} from '../screens';
+import {Home, Profile, Register, News} from '../screens';
 import SeedVerifier from '../screens/SeedVerifier';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
@@ -57,7 +57,7 @@ export default () => {
         name="SeedVerifier"
         component={SeedVerifier}
         options={{
-          title: 'Seed Verifier',
+          title: t('navigation.seedverifier'),
           headerStyle: {
             backgroundColor: themeColor,
           },
@@ -73,7 +73,7 @@ export default () => {
         name="Weather"
         component={Weather}
         options={{
-          title: 'Seed Verifier',
+          title: t('navigation.weather'),
           headerStyle: {
             backgroundColor: themeColor,
           },
