@@ -16,13 +16,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {apiCall} from '../api/openAI';
-import Features from '../components/Feature';
 import Tts from 'react-native-tts';
 import {Audio} from 'expo-av';
 import {Configuration, OpenAIApi} from 'openai';
 import {dummyMessages} from '../constants/message';
-import {Block, Button, Input} from '../components';
+
 const ChatScreen = () => {
   const [result, setResult] = useState('');
   const [rec, setRec] = useState(false);
@@ -41,22 +39,6 @@ const ChatScreen = () => {
   const [sound, setSound] = React.useState();
   const StartSound = '../assets/audio/hello2.mp3';
   const EndSound = '../assets/audio/helloend.mp3';
-  const OPENAI_API_KEY = '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';
-  async function getChatResponse(prompt: string) {
-    const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {role: 'system', content: 'You are a helpful assistant.'},
-        {role: 'user', content: prompt},
-      ],
-    });
-
-    return completion.data.choices[0].message.content;
-  }
-  const configuration = new Configuration({
-    apiKey: OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
 
   const handleChat = () => {
     getChatResponse(promptChat)
@@ -256,17 +238,22 @@ const ChatScreen = () => {
             Assistant
           </Text>
 
-          <View
-            style={{height: hp(62)}}
-            className="bg-neutral-200 rounded-3xl">
+          <View style={{height: hp(62)}} className="bg-neutral-200 rounded-3xl">
             <View className="w-max h-[480] flex justify-center rounded-xl ">
-              <WebView
+              {/* <WebView
               className='rounded-xl'
                 source={{
                   uri: 'https://console.dialogflow.com/api-client/demo/embedded/90010441-b874-4669-b4f7-1d18f809df92',
                 }}
                 allowsInlineMediaPlayback
                 mediaPlaybackRequiresUserAction={false}
+              /> */}
+              <WebView
+                className='rounded-xl'
+                source={{
+                  uri: 'https://console.dialogflow.com/api-client/demo/embedded/90010441-b874-4669-b4f7-1d18f809df92',
+                }}
+                allowsMicrophone={true}
               />
             </View>
           </View>
@@ -317,8 +304,6 @@ const ChatScreen = () => {
             </TouchableOpacity>
           )}
         </View>
-
-        
       </SafeAreaView>
     </View>
   );
