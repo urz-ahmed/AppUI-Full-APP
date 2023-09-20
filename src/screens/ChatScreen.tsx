@@ -1,4 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
+
+import {WebView} from 'react-native-webview';
 import {
   View,
   Text,
@@ -26,7 +28,7 @@ const ChatScreen = () => {
   const [rec, setRec] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = React.useState();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([dummyMessages]);
   const [speaking, setSpeaking] = useState(false);
   const {assets, colors, gradients, sizes} = useTheme();
   const scrollViewRef = useRef();
@@ -246,94 +248,32 @@ const ChatScreen = () => {
         </View>
 
         {/* features || message history */}
-        {messages.length > 0 ? (
-          <View className="space-y-2 flex-1">
-            <Text
-              className=" font-semibold ml-1"
-              style={{fontSize: wp(5), color: textTheme}}>
-              Assistant
-            </Text>
 
-            <View
-              style={{height: hp(58)}}
-              className="bg-neutral-200 rounded-3xl p-4">
-              <ScrollView
-                ref={scrollViewRef}
-                bounces={false}
-                className="space-y-4"
-                showsVerticalScrollIndicator={false}>
-                {messages.map((message, index) => {
-                  if (message.role == 'assistant') {
-                    if (message.content.includes('https')) {
-                      // result is an ai image
-                      return (
-                        <View key={index} className="flex-row justify-start">
-                          <View className="p-2 flex rounded-2xl bg-cyan-100 rounded-tl-none">
-                            {/* <Image
-                              source={{uri: message.content}}
-                              className="rounded-2xl"
-                              resizeMode="contain"
-                              style={{height: wp(60), width: wp(60)}}
-                            /> */}
-                          </View>
-                        </View>
-                      );
-                    } else {
-                      // chat gpt response
-                      return (
-                        <View
-                          key={index}
-                          style={{width: wp(70)}}
-                          className="bg-cyan-100 p-2 rounded-xl rounded-tl-none ">
-                          <Text
-                            className="text-neutral-800"
-                            style={{fontSize: wp(4)}}>
-                            {message.content}
-                          </Text>
-                        </View>
-                      );
-                    }
-                  } else {
-                    // user input text
-                    return (
-                      <View key={index} className="flex-row justify-end">
-                        <View
-                          style={{width: wp(70)}}
-                          className="bg-white p-2 rounded-xl rounded-tr-none">
-                          <Text style={{fontSize: wp(4)}}>
-                            {message.content}
-                          </Text>
-                        </View>
-                      </View>
-                    );
-                  }
-                })}
-              </ScrollView>
+        <View className="space-y-2 flex-1">
+          <Text
+            className=" font-semibold ml-1"
+            style={{fontSize: wp(5), color: textTheme}}>
+            Assistant
+          </Text>
+
+          <View
+            style={{height: hp(62)}}
+            className="bg-neutral-200 rounded-3xl">
+            <View className="w-max h-[480] flex justify-center rounded-xl ">
+              <WebView
+              className='rounded-xl'
+                source={{
+                  uri: 'https://console.dialogflow.com/api-client/demo/embedded/90010441-b874-4669-b4f7-1d18f809df92',
+                }}
+                allowsInlineMediaPlayback
+                mediaPlaybackRequiresUserAction={false}
+              />
             </View>
           </View>
-        ) : (
-          <Features />
-        )}
-        <View className="">
-          <Input
-            placeholder="Enter Text"
-            marginBottom={sizes.sm}
-            value={promptChat}
-            onChangeText={handleChatChange}
-          />
-          <TouchableOpacity
-            onPress={handleChat}
-            className="flex items-end justify-top ">
-            {/* recording start button */}
-            <Image
-              className="rounded-full "
-              source={require('../assets/icons/sendLarge.png')}
-              style={{width: hp(2), height: hp(2)}}
-            />
-          </TouchableOpacity>
         </View>
+
         {/* recording, clear and stop buttons */}
-        <View className="flex justify-center items-center">
+        <View className="flex justify-center items-center hidden">
           {loading ? (
             <Image
               source={require('../assets/images/loading.gif')}
@@ -377,6 +317,8 @@ const ChatScreen = () => {
             </TouchableOpacity>
           )}
         </View>
+
+        
       </SafeAreaView>
     </View>
   );
