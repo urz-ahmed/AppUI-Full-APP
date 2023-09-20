@@ -221,11 +221,11 @@ const ChatScreen = () => {
       {/* <StatusBar barStyle="dark-content" /> */}
       <SafeAreaView className="flex-1 flex mx-5">
         {/* bot icon */}
-        <View className="flex-row justify-center">
+        <View className="flex-row justify-center items-center">
           <Image
             source={require('../assets/images/robot.png')}
             style={{height: hp(25), width: hp(25)}}
-            className="mt-1"
+            className="mt-1 "
           />
         </View>
 

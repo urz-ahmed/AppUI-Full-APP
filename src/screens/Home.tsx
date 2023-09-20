@@ -56,8 +56,8 @@ const Home = () => {
       navigateTo: 'Assistant',
     },
     {
-      id: 4,
-      image: require('../assets/images/chatbot.png'),
+      id: 5,
+      image: require('../assets/images/poision.png'),
       title:"Pesticide calculator",
       navigateTo: 'Assistant',
     },
@@ -81,7 +81,7 @@ const Home = () => {
   useEffect(() => {
     console.log('Weather Data:', weatherData);
   }, [weatherData]);
-
+const custom_text='white';
   return (
     <Block color={themeColor}>
       <Weather onWeatherData={handleWeatherData} />
@@ -118,7 +118,9 @@ const Home = () => {
           transform="uppercase"
           gradient={gradients.tertiary}
           marginTop={sizes.sm}
-          style={styles.exploreTitle}>
+          style={styles.exploreTitle}
+          className={`text-white`}
+          >
           {t('home.explore')}
         </Text>
         {/* Small Cards */}
@@ -184,8 +186,8 @@ const styles = StyleSheet.create({
     boxSizing: 'border-box',
   },
   DnaIcon: {
-    width: 27,
-    height: 38,
+    width: 35,
+    height: 40,
   },
   Genetics: {
     display: 'flex',
