@@ -19,7 +19,7 @@ export const USERS: IUser[] = [
     department: 'Farmer',
     stats: {posts: 323, followers: 53200, following: 749000},
     about:
-      'Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).',
+      'I am the best farmer on this plannet',
     avatar:
       'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?fit=crop&w=80&q=80',
   },

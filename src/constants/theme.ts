@@ -37,7 +37,6 @@ export const ICONS: ThemeIcons = {
   facebook: require('../assets/icons/facebook.png'),
   arrow: require('../assets/icons/arrow.png'),
   articles: require('../assets/icons/articles.png'),
-  basket: require('../assets/icons/basket.png'),
   bell: require('../assets/icons/bell.png'),
   calendar: require('../assets/icons/calendar.png'),
   chat: require('../assets/icons/chat.png'),

@@ -1,10 +1,17 @@
 import React, {useCallback, useState} from 'react';
 import axios from 'axios';
-import {ScrollView, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Linking,
+} from 'react-native';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Image, Input, Product, Text} from '../components/';
 import {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import Weather from './Weather';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -24,71 +31,95 @@ const Home = () => {
   const gridItems = [
     {
       id: 1,
-      image: require('../assets/images/seeds-icon.png'),
-      title: 'Seed Verifier',
+      image: require('../assets/images/analysis.png'),
+      title: t('home.analyseplants'),
       navigateTo: 'SeedVerifier',
     },
     {
       id: 2,
-      image: require('../assets/images/location.png'),
-      title: 'Nearby Research Center',
+      image: require('../assets/images/seeds-icon.png'),
+      title: t('home.seed_verifier'),
       navigateTo: 'SeedVerifier',
     },
     {
       id: 3,
-      image: require('../assets/images/analysis.png'),
-      title: 'Analyze Plants',
-      navigateTo: 'SeedVerifier',
+      image: require('../assets/images/location.png'),
+      title: t('home.nearby'),
+      navigateTo:
+        'https://www.google.com/maps/search/nearby+agriculture+research+center/@22.6538069,88.3017304,11z/data=!3m1!4b1?entry=ttu',
     },
-
+    
+    {
+      id: 4,
+      image: require('../assets/images/chatbot.png'),
+      title: t('home.ask_teja'),
+      navigateTo: 'Assistant',
+    },
+    {
+      id: 4,
+      image: require('../assets/images/chatbot.png'),
+      title:"Pesticide calculator",
+      navigateTo: 'Assistant',
+    },
     // Add more items as needed
   ];
 
+  // Function to handle opening external links
+  const openExternalLink = async (url) => {
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      console.error('Error opening URL:', error);
+    }
+  };
+
+  const [weatherData, setWeatherData] = useState(null);
+  const handleWeatherData = (data) => {
+    setWeatherData(data);
+  };
+
+  useEffect(() => {
+    console.log('Weather Data:', weatherData);
+  }, [weatherData]);
+
   return (
     <Block color={themeColor}>
-      {/* products list */}
+      <Weather onWeatherData={handleWeatherData} />
       <Block
         scroll
         paddingHorizontal={sizes.padding}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: sizes.l}}
         color={themeColor}>
-        <Block row wrap="wrap" justify="space-between" marginTop={sizes.sm}>
-          {/* single card */}
+        {/* Display Weather data */}
+        {weatherData && (
           <Block>
             <Block card row>
               <Image
                 resizeMode="contain"
-                source={assets?.card1}
+                source={{
+                  uri: `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png`,
+                }}
                 style={{height: 114}}
               />
               <Block padding={sizes.s} justify="space-between">
-                <Text p>Temperature: 23%</Text>
-                <Text p>Humidity: 65%</Text>
-                <Text p>Chance of Rain: 90%</Text>
-                <TouchableOpacity>
-                  <Block row align="center">
-                    <Text
-                      p
-                      semibold
-                      marginRight={sizes.s}
-                      color={colors.success}>
-                      More
-                    </Text>
-                    <Image source={assets.arrow} color={colors.success} />
-                  </Block>
-                </TouchableOpacity>
+                <Text p>
+                  Temperature: {Math.round(weatherData.main.temp)} ℃
+                </Text>
+                <Text p>Humidity: {weatherData.main.humidity}%</Text>
+                <Text p>Chance of Rain: {weatherData.main.humidity}%</Text>
               </Block>
             </Block>
           </Block>
-        </Block>
+        )}
         <Text
           h5
           bold
           transform="uppercase"
           gradient={gradients.tertiary}
-          marginTop={sizes.sm}>
-          Explore
+          marginTop={sizes.sm}
+          style={styles.exploreTitle}>
+          {t('home.explore')}
         </Text>
         {/* Small Cards */}
         <View style={{padding: 16}}>
@@ -101,7 +132,15 @@ const Home = () => {
             {gridItems.map((item) => (
               <TouchableOpacity
                 key={item.id}
-                onPress={() => navigation.navigate(item.navigateTo)}>
+                onPress={() => {
+                  if (item.navigateTo.startsWith('http')) {
+                    // It's an external link, open it
+                    openExternalLink(item.navigateTo);
+                  } else {
+                    // It's an internal navigation, navigate within the app
+                    navigation.navigate(item.navigateTo);
+                  }
+                }}>
                 <View style={styles.Genetics1} className="mt-2">
                   <View style={styles.Group212}>
                     <Image style={styles.DnaIcon} source={item.image} />
@@ -118,6 +157,7 @@ const Home = () => {
 };
 
 export default Home;
+
 const styles = StyleSheet.create({
   Genetics1: {
     display: 'flex',
@@ -158,5 +198,10 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     textAlign: 'center',
     letterSpacing: '0.3px',
+  },
+  exploreTitle: {
+    borderBottomWidth: 2, // Add an underline
+    borderBottomColor: 'grey', // Set the underline color
+    paddingBottom: 5, // Adjust as needed
   },
 });
