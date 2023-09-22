@@ -1,122 +1,124 @@
 {
-    "common": {
+  "common": {
     "appDetails": "অ্যাপ বিবরণ",
     "appName": "অ্যাপ নাম",
     "appVersion": "অ্যাপ সংস্করণ",
-    "buildVersion": "বিল্ড সংস্করণ",
+    "buildVersion": "তৈরির সংস্করণ",
     "expoVersion": "এক্সপো সংস্করণ",
-    "about": "সম্পর্কিত",
+    "about": "সম্পর্কে",
     "visit": "দেখুন",
-    "posted": "{{date}} তারিখে পোস্ট করা হয়েছে",
+    "posted": "{{date}} তে পোস্ট করা হয়েছে",
     "recommended": "আপনার জন্য প্রস্তাবিত",
-    "viewall": "সমস্ত দেখুন",
+    "viewall": "সব দেখুন",
     "more": "আরও",
     "follow": "অনুসরণ করুন",
     "followed": "অনুসরণ করা হয়েছে",
-    "search": "অনুসন্ধান করুন",
+    "search": "খোঁজ করুন",
     "night": "রাত",
     "day": "দিন",
-    "booknow": "এখনই বুক করুন",
+    "booknow": "এখন বুক করুন",
     "selectDate": "তারিখ নির্বাচন করুন",
     "checkInOut": "চেক-ইন এবং চেক-আউট",
     "adults": "প্রাপ্তবয়স্ক",
     "roomType": "রুম প্রকার",
-    "luxury": "মহানমানসম্পন্ন",
+    "luxury": "প্রাসাদ",
     "message": "আপনার বার্তা লিখুন",
     "album": "অ্যালবাম",
     "or": "অথবা",
     "name": "নাম",
     "namePlaceholder": "আপনার পুরো নাম লিখুন",
-    "email": "ইমেল",
-    "emailPlaceholder": "আপনার ইমেল ঠিকানা লিখুন",
+    "email": "ইমেইল",
+    "emailPlaceholder": "আপনার ইমেইল ঠিকানা লিখুন",
     "password": "পাসওয়ার্ড",
     "passwordPlaceholder": "একটি পাসওয়ার্ড লিখুন",
-    "agree": "আমি সম্মত হচ্ছি ",
+    "agree": "আমি সম্মত ",
     "terms": "শর্তাদি",
-    "signup": "নিবন্ধন করুন",
-    "signin": "সাইন ইন করুন",
-    "goBack": "পিছনে যান",
+    "signup": "রেজিস্টার",
+    "signin": "সাইন ইন",
+    "goBack": "ফিরে যান",
     "inStock": "স্টকে আছে",
     "outStock": "স্টকে নেই",
     "addToCart": "কার্টে যোগ করুন",
-    "checkout": "চেকআউটে যান",
-    "readArticle": "পোস্টটি পড়ুন",
+    "checkout": "চেকআউট করুন",
+    "readArticle": "প্রবন্ধ পড়ুন",
     "send": "প্রেরণ করুন",
     "guests": {
-    "one": "1 অতিথি",
-    "other": "{{count}} অতিথি",
-    "zero": "0 অতিথি"
+      "one": "1 অতিথি",
+      "other": "{{count}} অতিথি",
+      "zero": "0 অতিথি"
     }
-    },
-    "app": {
-    "name": "সফট ইউআই",
-    "fullname": "সফট ইউআই কিট",
-    "native": "রিয়েক্ট নেটিভ",
-    "link": "creative-tim.com"
-    },
-    "darkMode": "অন্ধকার মোড",
-    "screens": {
+  },
+  "app": {
+    "name": "ফার্ম-অ্যাপ",
+    "fullname": "ফার্ম অ্যাপ",
+    "native": "কৃষি সার্থি",
+    "link": "হ্যাকস্টার্স.কম"
+  },
+  "darkMode": "ডার্ক মোড",
+  "screens": {
     "home": "হোম",
     "components": "কম্পোনেন্টস",
-    "articles": "পোস্টগুলি",
-    "rental": "ভাড়া",
+    "articles": "আর্টিকেল",
+    "Assistant": "সহায়ক",
     "profile": "প্রোফাইল",
     "settings": "সেটিংস",
     "register": "অ্যাকাউন্ট তৈরি করুন",
-    "extra": "অতিরিক্ত - অটোমোটিভ",
-    "login": "লগইন"
-    },
-    "navigation": {
-    "home": "সফট ইউআই",
+    "logout": "লগআউট",
+    "login": "লগ ইন",
+    "news": "সংবাদ",
+    "weather": "আবহাওয়া রিপোর্ট"
+  },
+  "navigation": {
+    "home": "হোম",
     "components": "কম্পোনেন্টস",
-    "articles": "সফট ইউআই",
-    "rentals": "সফট ইউআই",
-    "rental": "সেরা চুক্তি",
+    "articles": "আর্টিকেল",
+    "Assistant": "সহায়ক",
     "booking": "বুকিং",
     "chat": "চ্যাট",
     "profile": "প্রোফাইল",
     "settings": "সেটিংস",
     "notifications": "বিজ্ঞপ্তি",
     "agreement": "ব্যবহারকারী চুক্তি",
-    "about": "সম্পর্কিত",
+    "about": "সম্পর্কে",
     "privacy": "গোপনীয়তা",
-    "register": "নিবন্ধন করুন",
-    "login": "লগইন",
-    "extra": "অটোমোটিভ",
-    "shopping": "শপিং কার্ট"
-    },
-    "menu": {
-    "started": "শুরু হচ্ছে",
+    "register": "রেজিস্টার",
+    "login": "লগ ইন",
+    "extra": "অতিরিক্ত",
+    "news": "সংবাদ",
+    "weather": "আবহাওয়া",
+    "seedverifier": "বীজ যাচাইকারী"
+  },
+  "chat": {
+    "title": "প্রেরণ করুন"
+  },
+  "menu": {
+    "started": "শুরু হয়েছে",
     "documentation": "ডকুমেন্টেশন"
-    },
-    "home": {
-    "title": "সফট ইউআই",
-    "following": "অনুসরণ করা হচ্ছে",
-    "trending": "ট্রেন্ডিং"
-    },
-    "register": {
-    "title": "নিবন্ধন করুন",
-    "subtitle": "এর সাথে নিবন্ধন করুন"
-    },
-    "login": {
-    "title": "লগইন",
-    "subtitle": "এর সাথে লগইন করুন"
-    },
-    "profile": {
+  },
+  "Logout": {
+    "title": "লগআউট",
+    "image": "ডকুমেন্টেশন"
+  },
+  "home": {
+    "explore": "অন্বেষণ করা",
+    "analyseplants": "উদ্ভিদ বিশ্লেষণ করা",
+    "nearby": "পাশের গবেষণা কেন্দ্র",
+    "ask_teja": "তেজা কে জিজ্ঞাসা করুন",
+    "seed_verifier": "বীজ যাচাই করুন"
+  },
+  "register": {
+    "title": "রেজিস্টার করুন",
+    "subtitle": "দিয়ে রেজিস্টার করুন"
+  },
+  "login": {
+    "title": "লগ ইন",
+    "subtitle": "দিয়ে লগ ইন করুন"
+  },
+  "profile": {
     "title": "প্রোফাইল",
-    "posts": "পোস্টগুলি",
-    "followers": "অনুসরণকারীগণ",
+    "posts": "পোস্ট",
+    "followers": "অনুযায়ী",
     "following": "অনুসরণ করা হচ্ছে",
     "aboutMe": "আমার সম্পর্কে"
-    },
-    
-    "pro": {
-    "title": "সফট ইউআই প্রো",
-    "alert": "এই বৈশিষ্ট্যটি প্রো সংস্করণে উপলভ্য",
-    "components": "• {{count}} কম্পোনেন্ট (বাটন, ইনপুট, কার্ড ইত্যাদি)",
-    "screens": "• {{count}} স্ক্রিন (শপিং, বিজ্ঞপ্তি, চ্যাট ইত্যাদি)",
-    "support": "• প্রিমিয়াম সমর্থন অন্তর্ভুক্ত",
-    "takeAdvantage": "সমস্ত বৈশিষ্ট্য এবং স্ক্রিনগুলির সুবিধা নিন যা React Native-এ কোড করা হয়েছে দুটির জন্য:",
-    "appTemplate": "সফট ইউআই প্রো রিয়েক্ট নেটিভ অ্যাপ টেমপ্লেট"
-    }
-    }
+  }
+}

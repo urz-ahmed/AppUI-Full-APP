@@ -1,4 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
+
+import {WebView} from 'react-native-webview';
 import {
   View,
   Text,
@@ -14,19 +16,17 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {apiCall} from '../api/openAI';
-import Features from '../components/Feature';
 import Tts from 'react-native-tts';
 import {Audio} from 'expo-av';
 import {Configuration, OpenAIApi} from 'openai';
 import {dummyMessages} from '../constants/message';
-import {Block, Button, Input} from '../components';
+
 const ChatScreen = () => {
   const [result, setResult] = useState('');
   const [rec, setRec] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = React.useState();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([dummyMessages]);
   const [speaking, setSpeaking] = useState(false);
   const {assets, colors, gradients, sizes} = useTheme();
   const scrollViewRef = useRef();
@@ -39,22 +39,6 @@ const ChatScreen = () => {
   const [sound, setSound] = React.useState();
   const StartSound = '../assets/audio/hello2.mp3';
   const EndSound = '../assets/audio/helloend.mp3';
-  const OPENAI_API_KEY = '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';
-  async function getChatResponse(prompt: string) {
-    const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {role: 'system', content: 'You are a helpful assistant.'},
-        {role: 'user', content: prompt},
-      ],
-    });
-
-    return completion.data.choices[0].message.content;
-  }
-  const configuration = new Configuration({
-    apiKey: OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
 
   const handleChat = () => {
     getChatResponse(promptChat)
@@ -237,103 +221,46 @@ const ChatScreen = () => {
       {/* <StatusBar barStyle="dark-content" /> */}
       <SafeAreaView className="flex-1 flex mx-5">
         {/* bot icon */}
-        <View className="flex-row justify-center">
+        <View className="flex-row justify-center items-center">
           <Image
             source={require('../assets/images/robot.png')}
             style={{height: hp(25), width: hp(25)}}
-            className="mt-1"
+            className="mt-1 "
           />
         </View>
 
         {/* features || message history */}
-        {messages.length > 0 ? (
-          <View className="space-y-2 flex-1">
-            <Text
-              className=" font-semibold ml-1"
-              style={{fontSize: wp(5), color: textTheme}}>
-              Assistant
-            </Text>
 
-            <View
-              style={{height: hp(58)}}
-              className="bg-neutral-200 rounded-3xl p-4">
-              <ScrollView
-                ref={scrollViewRef}
-                bounces={false}
-                className="space-y-4"
-                showsVerticalScrollIndicator={false}>
-                {messages.map((message, index) => {
-                  if (message.role == 'assistant') {
-                    if (message.content.includes('https')) {
-                      // result is an ai image
-                      return (
-                        <View key={index} className="flex-row justify-start">
-                          <View className="p-2 flex rounded-2xl bg-cyan-100 rounded-tl-none">
-                            {/* <Image
-                              source={{uri: message.content}}
-                              className="rounded-2xl"
-                              resizeMode="contain"
-                              style={{height: wp(60), width: wp(60)}}
-                            /> */}
-                          </View>
-                        </View>
-                      );
-                    } else {
-                      // chat gpt response
-                      return (
-                        <View
-                          key={index}
-                          style={{width: wp(70)}}
-                          className="bg-cyan-100 p-2 rounded-xl rounded-tl-none ">
-                          <Text
-                            className="text-neutral-800"
-                            style={{fontSize: wp(4)}}>
-                            {message.content}
-                          </Text>
-                        </View>
-                      );
-                    }
-                  } else {
-                    // user input text
-                    return (
-                      <View key={index} className="flex-row justify-end">
-                        <View
-                          style={{width: wp(70)}}
-                          className="bg-white p-2 rounded-xl rounded-tr-none">
-                          <Text style={{fontSize: wp(4)}}>
-                            {message.content}
-                          </Text>
-                        </View>
-                      </View>
-                    );
-                  }
-                })}
-              </ScrollView>
+        <View className="space-y-2 flex-1">
+          <Text
+            className=" font-semibold ml-1"
+            style={{fontSize: wp(5), color: textTheme}}>
+            Assistant
+          </Text>
+
+          <View style={{height: hp(62)}} className="bg-neutral-200 rounded-3xl">
+            <View className="w-max h-[480] flex justify-center rounded-xl ">
+              {/* <WebView
+              className='rounded-xl'
+                source={{
+                  uri: 'https://console.dialogflow.com/api-client/demo/embedded/90010441-b874-4669-b4f7-1d18f809df92',
+                }}
+                allowsInlineMediaPlayback
+                mediaPlaybackRequiresUserAction={false}
+              /> */}
+              <WebView
+                className='rounded-xl'
+                source={{
+                  uri: 'https://console.dialogflow.com/api-client/demo/embedded/90010441-b874-4669-b4f7-1d18f809df92',
+                }}
+                allowsMicrophone={true}
+              />
             </View>
           </View>
-        ) : (
-          <Features />
-        )}
-        <View className="">
-          <Input
-            placeholder="Enter Text"
-            marginBottom={sizes.sm}
-            value={promptChat}
-            onChangeText={handleChatChange}
-          />
-          <TouchableOpacity
-            onPress={handleChat}
-            className="flex items-end justify-top ">
-            {/* recording start button */}
-            <Image
-              className="rounded-full "
-              source={require('../assets/icons/sendLarge.png')}
-              style={{width: hp(2), height: hp(2)}}
-            />
-          </TouchableOpacity>
         </View>
+
         {/* recording, clear and stop buttons */}
-        <View className="flex justify-center items-center">
+        <View className="flex justify-center items-center hidden">
           {loading ? (
             <Image
               source={require('../assets/images/loading.gif')}

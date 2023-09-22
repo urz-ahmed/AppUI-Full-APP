@@ -6,7 +6,7 @@ import { Block } from "../components"
 const openWeatherKey = "3584e8b5428ee7ee43c9e8bd7b681e1e"
 let url = `https://api.openweathermap.org/data/2.5/weather?`
 // let url =`https://api.openweathermap.org/data/2.5/onecall?`
-const Weather = () => {
+const Weather = ({onWeatherData}) => {
   const { assets, colors, gradients, sizes } = useTheme();
   const [forecast, setForecast] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
